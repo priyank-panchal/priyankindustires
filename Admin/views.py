@@ -1,8 +1,4 @@
-import datetime
-import json
-
 from django.contrib.messages.views import SuccessMessageMixin
-from django.core import serializers
 from django.http import JsonResponse
 from django.shortcuts import render
 from django.views import View
@@ -43,9 +39,12 @@ class productShow(ListView):
     model = Product
     template_name = 'product_details.html'
 
+
 class invoicePrint(View):
     def get(self, request):
-        return render(request,"invoice-special.html")
+        return render(request, "invoice-special.html")
+
+
 class invoiceBillShow(ListView):
     context_object_name = "data"
     template_name = 'order-generate.html'
@@ -70,42 +69,56 @@ def ProductOne(request, pk):
     return JsonResponse({"product": list(products.values())})
 
 
-def allData(request):
-    try:
-        inputData = request.POST
-        print(inputData)
-        gstno = int(inputData.get("gstno", "0"))
-        cgst = float(inputData.get("cgst", "0"))
-        sgst = float(inputData.get("sgst", "0"))
-        igst = float(inputData.get("igst", "0"))
-        roundoff = float(inputData.get("roundoff", "0"))
-        gst_without = float(inputData.get("subtotal", "0"))
-        total_amount = float(inputData.get("grandtotal"))
-        billDetails = BillDetails()
-        billDetails.invoice_no = 1
-        billDetails.cgst = cgst
-        billDetails.sgst = sgst
-        billDetails.igst = igst
-        billDetails.date = date.today()
-        billDetails.total_amount = total_amount
-        party = PartyDetails.objects.get(id=gstno)
-        billDetails.party = party
-        billDetails.gst_without = gst_without
-        billDetails.round_off = roundoff
-        billDetails.save()
-        Productids = [int(i) for i in inputData.getlist("ProductName[]", "0")]
-        qty = [int(i) for i in inputData.getlist("qty[]", "0")]
-        rate = [int(i) for i in inputData.getlist("rate[]", "0")]
-        amount = [float(i) for i in inputData.getlist("amount[]", '0')]
-        for i in range(0, len(Productids)):
-            productObjects = Product.objects.get(id=Productids[i])
-            productSelling = ProductSelling()
-            productSelling.amount = amount[i]
-            productSelling.qty = qty[i]
-            productSelling.rate = rate[i]
-            productSelling.product = productObjects
-            productSelling.billDetails = billDetails
-            productSelling.save()
-    except Exception as e:
-        return JsonResponse({"resp":print(e)})
-    return JsonResponse({"resp": "Succesfully insert Data"})
+class getInvoiceNumber(View):
+    def get(self, request):
+
+        billdetails = BillDetails.objects.all().last()
+        number = 1
+        if billdetails:
+              number = int(billdetails.invoice_no)
+              print(number)
+              number += 1
+        return JsonResponse({"invoiceNo": number})
+
+
+class allData(View):
+    def post(self, request):
+        try:
+            inputData = request.POST
+            print(inputData)
+            gstno = int(inputData.get("gstno", "0"))
+            cgst = float(inputData.get("cgst", "0"))
+            sgst = float(inputData.get("sgst", "0"))
+            igst = float(inputData.get("igst", "0"))
+            invoice_no = int(inputData.get("invoiceNumber", "0"))
+            roundoff = float(inputData.get("roundoff", "0"))
+            gst_without = float(inputData.get("subtotal", "0"))
+            total_amount = float(inputData.get("grandtotal"))
+            billDetails = BillDetails()
+            billDetails.invoice_no = invoice_no
+            billDetails.cgst = cgst
+            billDetails.sgst = sgst
+            billDetails.igst = igst
+            billDetails.date = date.today()
+            billDetails.total_amount = total_amount
+            party = PartyDetails.objects.get(id=gstno)
+            billDetails.party = party
+            billDetails.gst_without = gst_without
+            billDetails.round_off = roundoff
+            billDetails.save()
+            Productids = [int(i) for i in inputData.getlist("ProductName[]", "0")]
+            qty = [int(i) for i in inputData.getlist("qty[]", "0")]
+            rate = [int(i) for i in inputData.getlist("rate[]", "0")]
+            amount = [float(i) for i in inputData.getlist("amount[]", '0')]
+            for i in range(0, len(Productids)):
+                productObjects = Product.objects.get(id=Productids[i])
+                productSelling = ProductSelling()
+                productSelling.amount = amount[i]
+                productSelling.qty = qty[i]
+                productSelling.rate = rate[i]
+                productSelling.product = productObjects
+                productSelling.billDetails = billDetails
+                productSelling.save()
+        except Exception as e:
+            return JsonResponse({"resp": print(e)})
+        return JsonResponse({"resp": "Succesfully insert Data"})
