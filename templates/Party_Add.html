@@ -1,0 +1,62 @@
+ {% extends 'index.html'%}
+    {% block content %}
+
+ <div class="page-content">
+     <div class="container-fluid">
+   <div class="row">
+       <div class="col-12">
+           <div class="card">
+                                    <div class="card-body">
+                                        <h4 class="card-title">Party Add</h4>
+                                        {% if messages %}
+                                            {% for message in messages %}
+                                                       <script>  alert('{{message}}') </script>
+                                            {% endfor %}
+                                        {% endif %}
+                                         <form action="" method="post">
+                                               {%csrf_token %}
+                                          <div class="mb-3">
+                                                <label class="form-label">GST No.</label>
+                                                <input type="text" id="FetchData" class="form-control" maxlength="15" name="gst_no" required/>
+                                            </div>
+                                           <div class="mb-3">
+                                                <label class="form-label">Phone No.</label>
+                                                <input type="number" class="form-control" name="phone_no"/>
+                                            </div>
+                                                <div class="mb-3">
+                                                <label class="form-label">State</label>
+                                                <input type="text" id="StateApi" class="form-control"  name="state"/>
+                                            </div>
+                                           <div class="mb-3">
+                                                <label class="form-label">Party Name</label>
+                                                <input type="text" id="PartyApi" class="form-control"  name="party_name"/>
+                                            </div>
+                                          <div class="mb-3">
+                                                <label class="form-label">Address</label>
+                                                <div>
+                                                    <textarea  id="AddressApi" class="form-control" rows="5" name="address"></textarea>
+                                                </div>
+                                            </div>
+                                            <div>
+                                                <div>
+                                                    <button type="submit" class="btn btn-primary waves-effect waves-light me-1">
+                                                        Submit
+                                                    </button>
+                                                    <button type="reset" class="btn btn-secondary waves-effect">
+                                                        Cancel
+                                                    </button>
+                                                </div>
+                                            </div>
+                                        </form>
+
+                                    </div>
+                                </div>
+                            </div> <!-- end col -->
+
+
+
+                    </div> <!-- container-fluid -->
+     </div>
+ </div>
+
+ {%endblock content %}

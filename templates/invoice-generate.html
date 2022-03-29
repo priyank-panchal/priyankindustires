@@ -1,0 +1,128 @@
+{% extends 'index.html' %}
+{% block content %}
+ <div class="page-content">
+                    <div class="container-fluid">
+
+                        <!-- start page title -->
+                        <div class="row">
+                            <div class="col-12">
+                                <div class="page-title-box d-flex align-items-center justify-content-between">
+                                    <h4 class="mb-0">Invoice Detail</h4>
+
+                                    <div class="page-title-right">
+                                        <ol class="breadcrumb m-0">
+                                            <li class="breadcrumb-item"><a href="javascript: void(0);">Invoices</a></li>
+                                            <li class="breadcrumb-item active">Invoice Detail</li>
+                                        </ol>
+                                    </div>
+
+                                </div>
+                            </div>
+                        </div>
+                        <!-- end page title -->
+
+                        <div class="row">
+                            <div class="col-lg-12">
+                                <div class="card rounded border">
+                                    <div class="card-body">
+                                        <div class="invoice-title">
+                                            <div class="text-muted">
+                                                <h6 class="mb-1" style="text-align:center;margin-top:20px;">TAX INVOICE</h6>
+                                                <h6 class="mb-1" style="text-align:center">Subject to Ahmedabad Jurisdction</h6>
+                                                <h1 class="font-size-30 mb-3" style="text-align:center">Priyank Industries</h1>
+                                                <h5 class="mb-1" style="text-align:center">MFG.Wood Working Machinary Spear Parts & Pricisan Job Work</h5>
+                                                <h6 class="mb-1" style="text-align:center">B-153 Pusparaj Estate,Nutan Mill Compound Nr.City Gold Cinema,Saraspur,Ahmedabad-18</h6>
+                                            </div>
+                                        </div>
+                                        <hr class="my-3 border">
+                                        <div class="row">
+                                            <div class="col-sm-6">
+                                                <div class="text-muted">
+                                                    <h5 cla ss="font-size-16 mb-3">Billed To:</h5>
+                                                    <h3 class="mb-2">Preston Miller</h3>
+                                                    <p class="mb-1">4450 Fancher Drive Dallas, TX 75247</p>
+                                                    <p class="mb-1">PrestonMiller@armyspy.com</p>
+                                                    <p></p>
+                                                </div>
+                                            </div>
+                                            <div class="col-sm-6">
+                                                <div class="text-muted text-sm-end">
+                                                    <div>
+                                                        <h5 class="mb-1">Invoice No:</h5>
+                                                        <p></p>
+                                                    </div>
+                                                    <div class="mt-4">
+                                                        <h5 class="font-size-16 mb-1">Invoice Date:</h5>
+                                                        <p>09 Jul, 2020</p>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="py-2">
+                                            <h5 class="font-size-15">Order summary</h5>
+                                            <div class="table-responsive">
+                                                <table class="table table-striped">
+                                                    <thead>
+                                                        <tr>
+                                                            <th style="width: 90px;">No.</th>
+                                                            <th>Item</th>
+                                                            <th>Price</th>
+                                                            <th>Quantity</th>
+                                                            <th class="text-end" style="width: 120px;">Total</th>
+                                                        </tr>
+                                                    </thead>
+                                                    <tbody>
+                                                        <tr>
+                                                            <th scope="row">01</th>
+                                                            <td>
+                                                                <h5 class="font-size-15 mb-1"></h5>
+                                                                <!--<ul class="list-inline mb-0">
+                                                                    <li class="list-inline-item">Color : <span class="fw-medium">Gray</span></li>
+                                                                    <li class="list-inline-item">Size : <span class="fw-medium">08</span></li>
+                                                                </ul>-->
+                                                            </td>
+                                                            <td>$260</td>
+                                                            <td>1</td>
+                                                            <td class="text-end">$260.00</td>
+                                                        </tr>
+                                                        <tr>
+                                                            <th scope="row" colspan="4" class="text-end">Sub Total</th>
+                                                            <td class="text-end">$510.00</td>
+                                                        </tr>
+                                                        <tr>
+                                                            <th scope="row" colspan="4" class="border-0 text-end">
+                                                                Discount :</th>
+                                                            <td class="border-0 text-end">- $50.00</td>
+                                                        </tr>
+                                                        <tr>
+                                                            <th scope="row" colspan="4" class="border-0 text-end">
+                                                                Shipping Charge :</th>
+                                                            <td class="border-0 text-end">$25.00</td>
+                                                        </tr>
+                                                        <tr>
+                                                            <th scope="row" colspan="4" class="border-0 text-end">
+                                                                Tax</th>
+                                                            <td class="border-0 text-end">$13.00</td>
+                                                        </tr>
+                                                        <tr>
+                                                            <th scope="row" colspan="4" class="border-0 text-end">Total</th>
+                                                            <td class="border-0 text-end"><h4 class="m-0">$498.00</h4></td>
+                                                        </tr>
+                                                    </tbody>
+                                                </table>
+                                            </div>
+                                            <div class="d-print-none mt-4">
+                                                <div class="float-end">
+                                                    <a href="javascript:window.print()" class="btn btn-success waves-effect waves-light me-1"><i class="bx bx-bx bxs-printer"></i></a>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <!-- end row -->
+                    </div> <!-- container-fluid -->
+                </div>
+
+{%endblock content %}

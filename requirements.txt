@@ -1,0 +1,7 @@
+asgiref==3.4.1
+django-parsley==0.7
+mysqlclient==2.0.3
+pytz==2021.1
+sqlparse==0.4.1
+
+## https://sheet.gstincheck.co.in/check/08bc69027cbd6b2340bc0e6379ed1681/27AHDPK5498E1Z4

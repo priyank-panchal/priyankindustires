@@ -1,0 +1,204 @@
+{% extends 'index.html'%}
+{% block content %}
+<div class="page-content">
+    <div class="container-fluid">
+        <div class="card">
+             <form class="form-horizontal custom-form" role="form" id="mainForm">
+            <div class="card-body">
+
+                <div class="container">
+
+                        <div class="form-group">
+                            <div class="col-sm-12">
+                                <div class="row">
+                                    <div class="col-md-3">
+                                        <label><b>Gst No.</b></label>
+                                        <div class="input-group">
+                                            <select class="form-control select2" id="Meldi" name="gstno">
+                                                <option value="">Select</option>
+                                                 {% for party in data.partyInformation %}
+                                                  <option value={{ party.id }}> {{ party.gst_no }}</option>
+                                                   {% endfor %}
+                                            </select>
+
+                                        </div>
+
+                                        <!-- /.input-group -->
+                                    </div>
+                                    <!-- /.col-md-6 -->
+
+                                    <!-- /.col-md-6 -->
+                                    <div class="col-md-4">
+                                        <label><b>Party Name</b></label>
+                                        <div class="input-group">
+                                            <input type="text" class="form-control" placeholder="Party Name"  id="PartyUnique">
+                                        </div>
+                                        <!-- /.input-group -->
+                                    </div>
+                                    <div class="col-md-2">
+                                        <label><b>State.</b></label>
+                                        <div class="input-group">
+                                            <input type="text" class="form-control" placeholder="State"  id="Party_state">
+                                        </div>
+                                        <!-- /.input-group -->
+                                    </div>
+                                    <div class="col-md-2">
+                                        <label><b>Date</b></label>
+                                        <div class="input-group">
+                                            <input type="text" name="todayDate" class="form-control" placeholder="date" id="Party_date">
+                                        </div>
+                                        <!-- /.input-group -->
+                                    </div>
+                                    <!-- /.col-md-6 -->
+                                </div>
+                                <!--/.row -->
+                            </div>
+                            <!--/.col-sm-10 -->
+                        </div>
+                        <!--/.form-group -->
+                        <div class="form-group">
+                            <label class="col-sm-2 control-label"></label>
+                            <div class="col-sm-12">
+                                <div class="row">
+                                    <div class="col-md-4">
+                                        <label><b>Mobile No.</b></label>
+                                        <div class="input-group">
+                                            <input type="text" class="form-control"  placeholder="Mobile no" id="Party_mobile">
+                                        </div>
+                                        <!-- /.input-group -->
+                                    </div>
+                                    <!-- /.col-md-6 -->
+                                    <div class="col-md-6">
+                                           <label><b>Address</b></label>
+                                        <div class="input-group">
+                                            <textarea class="form-control" rows="2"
+                                                       placeholder="Address" id="party_address"></textarea>
+                                        </div>
+                                        <!-- /.input-group -->
+                                    </div>
+                                    <!-- /.col-md-6 -->
+                                </div>
+                                <!--/.row -->
+                            </div>
+                            <!--/.col-sm-10 -->
+                        </div>
+                        <!--/.form-group -->
+                </div>
+
+
+                <div class="row clearfix">
+                    <div class="col-md-12 column">
+                        <table class="table table-bordered table-hover" id="tab_logic">
+                            <thead>
+                            <tr>
+                                <th class="text-center">#</th>
+                                <th class="text-center">Product Name</th>
+                                <th class="text-center">HSN No.</th>
+                                <th class="text-center">Per</th>
+                                <th class="text-center">Qty</th>
+                                <th class="text-center">Rate</th>
+                                <th class="text-center">Amount RS.</th>
+                            </tr>
+                            </thead>
+                            <tbody id="TBody">
+                            <tr id='addr0'>
+                                <td>1</td>
+                                <td>
+                                    <select class="form-control orderName" name="ProductName[]">
+                                        <option value="">Select</option>
+                                        {% for product in data.product %}
+                                        <option value={{ product.id }}> {{ product.product_name }}</option>
+                                        {% endfor %}
+                                    </select>
+                                </td>
+                                <td>
+                                    <input type="number"  class="form-control hsn"/>
+                                </td>
+                                <td>
+                                    <input type="text"  class="form-control per"/>
+                                </td>
+                                <td>
+                                    <input type="number" name='qty[]' class="form-control qty"/>
+                                </td>
+                                <td>
+                                    <input type="number" name='rate[]' class="form-control rate"/>
+                                </td>
+                                <td>
+                                    <input type="number" name='amount[]' class="form-control amount" readonly/>
+                                </td>
+                            </tr>
+                            <tr id='addr1'></tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+
+                <button id="add_row" class="btn btn-primary" style="margin-bottom:25px"><i class="fas fa-plus"></i></button>
+                <button id='delete_row' class="btn btn-primary" style="margin-bottom:25px"><i class="fa fa-times"></i></button>
+                 <div class="container">
+                        <div class="form-group">
+                            <div class="col-sm-12">
+                                <div class="row">
+                                    <div class="col-md-2">
+                                        <label><b>Sub Total</b></label>
+                                        <div class="input-group">
+                                            <input type="number" class="form-control" id="sub_total" name="subtotal" readonly/>
+                                        </div>
+                                    </div>
+
+                                    <div class="col-md-2">
+                                        <label><b>CGST</b></label>
+                                        <div class="input-group">
+                                            <input type="number" class="form-control"  name="cgst" id="CGST" readonly>
+                                        </div>
+
+                                    </div>
+                                    <div class="col-md-2">
+                                        <label><b>SGST</b></label>
+                                        <div class="input-group">
+                                            <input type="number" class="form-control" name="sgst" id="SGST" readonly>
+                                        </div>
+
+                                    </div>
+                                    <div class="col-md-2">
+                                        <label><b>IGST</b></label>
+                                        <div class="input-group">
+                                            <input type="number" class="form-control" id="IGST" name="igst" readonly>
+                                        </div>
+                                    </div>
+                                     <div class="col-md-2">
+                                        <label><b>Round off</b></label>
+                                        <div class="input-group">
+                                            <input type="text" name="roundoff" class="form-control"  id="RoundOff" >
+                                        </div>
+                                        <!-- /.input-group -->
+                                    </div>
+
+                                     <div class="col-md-2">
+                                        <label><b>Grand Total</b></label>
+                                        <div class="input-group">
+                                            <input type="number" class="form-control" name="grandtotal" id="GrandTotal" readonly>
+                                        </div>
+                                    </div>
+
+                                </div>
+                                <!--/.row -->
+                            </div>
+
+                            <!--/.col-sm-10 -->
+                        </div>
+
+
+
+                </div>
+
+
+             </div>
+              `   <button id="AddToInvoice" class="btn btn-primary" style="margin:25px;float:right;">Add Invoice</button>`
+             </form>
+            </div>
+        </div>
+    </div>
+    <!-- container-fluid -->
+</div>
+{%endblock content %}
