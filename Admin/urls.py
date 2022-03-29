@@ -10,7 +10,7 @@ urlpatterns = [
     path('invoice/productOne/<int:pk>',ProductOne,name='productOne'),
     path('invoice/gstNo/<int:pk>',gstDetails,name ='gstNo'),
     path('invoice/allData/',allData.as_view(),name='data-all'),
-    path('invoice/print/',invoicePrint.as_view(),name='invoice-print'),
+    path('invoice/print/<int:pk>',invoicePrint,name='invoice-print'),
     path('invoice/invoiceNumber/', getInvoiceNumber.as_view(), name='invoice-print')
 
 ]

@@ -192,7 +192,8 @@ csrf_token = getCookie('csrftoken');
 				method : "POST",
 				data : $('#mainForm').serialize() ,
 				success : function(data){
-                    window.location = "print/";
+				  var path = '/invoice/print/' + data['resp']
+                   location.href = path
 				}
 			});
 			}

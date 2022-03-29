@@ -1235,42 +1235,41 @@
         </tr>
         <tr height=36 style='mso-height-source:userset;height:27.0pt'>
             <td colspan=5 height=36 class=xl8722412 style='border-right:.5pt solid black;
-  height:27.0pt'>state: <font class="font022412">Gujarat</font></td>
+  height:27.0pt'>state: <font class="font022412"> {{details.party.state}}</font></td>
             <td colspan=4 class=xl8722412 style='border-right:.5pt solid black;
-  border-left:none'>Invoice No:95
+  border-left:none'>Invoice No: {{details.invoice_no }}
             </td>
         </tr>
         <tr height=35 style='mso-height-source:userset;height:26.25pt'>
             <td colspan=5 height=35 class=xl8722412 style='border-right:.5pt solid black;
-  height:26.25pt'>M/S:<font class="font1622412">Shital Steel And Tools</font></td>
+  height:26.25pt'>M/S:<font class="font1622412"> {{ details.party.party_name }} </font></td>
             <td colspan=4 class=xl10922412 style='border-right:.5pt solid black;
-  border-left:none'>Date : 28/03/2022
+  border-left:none'>Date : {{ details.date }}
             </td>
         </tr>
         <tr height=34 style='mso-height-source:userset;height:25.5pt'>
             <td colspan=5 height=34 class=xl8722412 style='border-right:.5pt solid black;
-  height:25.5pt'>Address:<font class="font022412">B/2, Ananya Residency, Opp.
-                Aryaman Bungalows, Near<span style='mso-spacerun:yes'> </span></font></td>
+  height:25.5pt'>Address:<font class="font022412">{{details.party.address |slice:"0:50" }}<span style='mso-spacerun:yes'> </span></font></td>
             <td colspan=4 class=xl9622412 style='border-right:.5pt solid black;
   border-left:none'>LR No:
             </td>
         </tr>
         <tr height=27 style='mso-height-source:userset;height:20.25pt'>
             <td colspan=5 height=27 class=xl9222412 style='border-right:.5pt solid black;
-  height:20.25pt'>Shilaj Crossing, Thaltej, Ahmedabad, Ahmedabad, Gujarat,
-                380059
+  height:20.25pt'>{{details.party.address |slice:"50:100" }}
             </td>
             <td colspan=4 rowspan=2 class=xl10222412 width=173 style='border-right:.5pt solid black;
-  border-bottom:.5pt solid black;width:131pt'>Party Mo:<font class="font022412">8169231599</font></td>
+  border-bottom:.5pt solid black;width:131pt'>Party Mo:<font class="font022412">{{ details.party.phone_no }} </font></td>
         </tr>
         <tr height=31 style='mso-height-source:userset;height:23.25pt'>
             <td colspan=5 height=31 class=xl9522412 style='border-right:.5pt solid black;
-  height:23.25pt'>&nbsp;
+  height:23.25pt'>
+                {{details.party.address |slice:"100:150" }}&nbsp;
             </td>
         </tr>
         <tr height=41 style='mso-height-source:userset;height:30.75pt'>
             <td colspan=5 height=41 class=xl8722412 style='border-right:.5pt solid black;
-  height:30.75pt'>PARTY GSTNO:<font class="font1622412">24APOPK4724J1ZO</font></td>
+  height:30.75pt'>PARTY GSTNO:<font class="font1622412">{{ details.party.gst_no }}</font></td>
             <td colspan=4 class=xl9922412 width=173 style='border-right:.5pt solid black;
   border-left:none;width:131pt'>&nbsp;
             </td>
@@ -1292,142 +1291,48 @@
             <td class=xl6822412 style='border-top:none'>Rate</td>
             <td class=xl6822412 style='border-top:none'>Amount</td>
         </tr>
-        <tr height=26 style='mso-height-source:userset;height:19.5pt'>
-            <td height=26 class=xl6622412 style='height:19.5pt;border-top:none'>1</td>
-            <td class=xl7522412 style='border-top:none;border-left:none' colspan="2">Bandsaw Simple
-                Roller MM 20.2
+        {% for i in data %}
+         <tr height=26 style='mso-height-source:userset;height:19.5pt'>
+            <td height=26 class=xl6622412 style='height:19.5pt;border-top:none'>{{ forloop.counter}}</td>
+            <td class=xl7522412 style='border-top:none;border-left:none' colspan="2">{{i.product.product_name }}
             </td>
-            <td class=xl6622412 style='border-top:none;border-left:none'>34</td>
-            <td class=xl6622412 style='border-top:none;border-left:none' colspan="2">10</td>
+            <td class=xl6622412 style='border-top:none;border-left:none'>{{i.product.hsn_code}}</td>
+            <td class=xl6622412 style='border-top:none;border-left:none' colspan="2">{{i.qty}}</td>
             <td class=xl10622412 style='border-right:.5pt solid black;
-  border-left:none'>PCS
+  border-left:none'>{{i.product.per }}
             </td>
-            <td class=xl7222412 style='border-top:none'>333220.00</td>
-            <td class=xl7322412 align=right style='border-top:none' >32,200.00</td>
+            <td class=xl7222412 style='border-top:none'>{{i.rate }}</td>
+            <td class=xl7322412 align=right style='border-top:none' >{{i.amount | stringformat:".2f" }}</td>
         </tr>
-
-        <tr height=26 style='mso-height-source:userset;height:19.5pt'>
-            <td height=26 class=xl6622412 style='height:19.5pt;border-top:none'>1</td>
-            <td class=xl7522412 style='border-top:none;border-left:none' colspan="2">Bandsaw Simple
-                Roller MM 20.2
-            </td>
-            <td class=xl6622412 style='border-top:none;border-left:none'>8461</td>
-            <td class=xl6622412 style='border-top:none;border-left:none' colspan="2">10</td>
-            <td class=xl10622412 style='border-right:.5pt solid black;
-  border-left:none'>PCS
-            </td>
-            <td class=xl7222412 style='border-top:none'>220.00</td>
-            <td class=xl7322412 align=right style='border-top:none' colspan="2">2,200.00</td>
-        </tr>
+        {% endfor %}
+            {% for i in looping %}
                 <tr height=26 style='mso-height-source:userset;height:19.5pt'>
-            <td height=26 class=xl6622412 style='height:19.5pt;border-top:none'>1</td>
-            <td class=xl7522412 style='border-top:none;border-left:none' colspan="2">Bandsaw Simple
-                Roller MM 20.2
+            <td height=26 class=xl6622412 style='height:19.5pt;border-top:none'></td>
+            <td class=xl7522412 style='border-top:none;border-left:none' colspan="2">
             </td>
-            <td class=xl6622412 style='border-top:none;border-left:none'>8461</td>
-            <td class=xl6622412 style='border-top:none;border-left:none' colspan="2">10</td>
+            <td class=xl6622412 style='border-top:none;border-left:none'></td>
+            <td class=xl6622412 style='border-top:none;border-left:none' colspan="2"></td>
             <td class=xl10622412 style='border-right:.5pt solid black;
-  border-left:none'>PCS
+  border-left:none'>
             </td>
-            <td class=xl7222412 style='border-top:none'>220.00</td>
-            <td class=xl7322412 align=right style='border-top:none' colspan="2">2,200.00</td>
+
+            <td class=xl7222412 style='border-top:none'></td>
+            <td class=xl7322412 align=right style='border-top:none' colspan="2"></td>
         </tr>
+        {% endfor %}
                 </tr>
-                <tr height=26 style='mso-height-source:userset;height:19.5pt'>
-            <td height=26 class=xl6622412 style='height:19.5pt;border-top:none'>1</td>
-            <td class=xl7522412 style='border-top:none;border-left:none' colspan="2">Bandsaw Simple
-                Roller MM 20.2
+            <tr height=26 style='mso-height-source:userset;height:19.5pt'>
+            <td height=26 class=xl6622412 style='height:19.5pt;border-top:none'></td>
+            <td class=xl7522412 style='border-top:none;border-left:none' colspan="2">
             </td>
-            <td class=xl6622412 style='border-top:none;border-left:none'>8461</td>
-            <td class=xl6622412 style='border-top:none;border-left:none' colspan="2">10</td>
+            <td class=xl6622412 style='border-top:none;border-left:none'></td>
+            <td class=xl6622412 style='border-top:none;border-left:none' colspan="2"></td>
             <td class=xl10622412 style='border-right:.5pt solid black;
-  border-left:none'>PCS
-            </td>
-            <td class=xl7222412 style='border-top:none'>220.00</td>
-            <td class=xl7322412 align=right style='border-top:none' colspan="2">2,200.00</td>
-        </tr>
-
-                <tr height=26 style='mso-height-source:userset;height:19.5pt'>
-            <td height=26 class=xl6622412 style='height:19.5pt;border-top:none'>1</td>
-            <td class=xl7522412 style='border-top:none;border-left:none' colspan="2">Bandsaw Simple
-                Roller MM 20.2
-            </td>
-            <td class=xl6622412 style='border-top:none;border-left:none'>8461</td>
-            <td class=xl6622412 style='border-top:none;border-left:none' colspan="2">10</td>
-            <td class=xl10622412 style='border-right:.5pt solid black;
-  border-left:none'>PCS
-            </td>
-            <td class=xl7222412 style='border-top:none'>220.00</td>
-            <td class=xl7322412 align=right style='border-top:none' colspan="2">2,200.00</td>
-        </tr>
-                <tr height=26 style='mso-height-source:userset;height:19.5pt'>
-            <td height=26 class=xl6622412 style='height:19.5pt;border-top:none'>1</td>
-            <td class=xl7522412 style='border-top:none;border-left:none' colspan="2">Bandsaw Simple
-                Roller MM 20.2
-            </td>
-            <td class=xl6622412 style='border-top:none;border-left:none'>8461</td>
-            <td class=xl6622412 style='border-top:none;border-left:none' colspan="2">10</td>
-            <td class=xl10622412 style='border-right:.5pt solid black;
-  border-left:none'>PCS
-            </td>
-            <td class=xl7222412 style='border-top:none'>220.00</td>
-            <td class=xl7322412 align=right style='border-top:none' colspan="2">2,200.00</td>
-        </tr>
-
-                <tr height=26 style='mso-height-source:userset;height:19.5pt'>
-            <td height=26 class=xl6622412 style='height:19.5pt;border-top:none'>1</td>
-            <td class=xl7522412 style='border-top:none;border-left:none' colspan="2">Bandsaw Simple
-                Roller MM 20.2
-            </td>
-            <td class=xl6622412 style='border-top:none;border-left:none'>8461</td>
-            <td class=xl6622412 style='border-top:none;border-left:none' colspan="2">10</td>
-            <td class=xl10622412 style='border-right:.5pt solid black;
-  border-left:none'>PCS
-            </td>
-            <td class=xl7222412 style='border-top:none'>220.00</td>
-            <td class=xl7322412 align=right style='border-top:none' colspan="2">2,200.00</td>
-        </tr>
-
-                <tr height=26 style='mso-height-source:userset;height:19.5pt'>
-            <td height=26 class=xl6622412 style='height:19.5pt;border-top:none'>1</td>
-            <td class=xl7522412 style='border-top:none;border-left:none' colspan="2">Bandsaw Simple
-                Roller MM 20.2
-            </td>
-            <td class=xl6622412 style='border-top:none;border-left:none'>8461</td>
-            <td class=xl6622412 style='border-top:none;border-left:none' colspan="2">10</td>
-            <td class=xl10622412 style='border-right:.5pt solid black;
-  border-left:none'>PCS
-            </td>
-            <td class=xl7222412 style='border-top:none'>220.00</td>
-            <td class=xl7322412 align=right style='border-top:none' colspan="2">2,200.00</td>
-        </tr>
-
-                <tr height=26 style='mso-height-source:userset;height:19.5pt'>
-            <td height=26 class=xl6622412 style='height:19.5pt;border-top:none'>1</td>
-            <td class=xl7522412 style='border-top:none;border-left:none' colspan="2">Bandsaw Simple
-                Roller MM 20.2
-            </td>
-            <td class=xl6622412 style='border-top:none;border-left:none'>8461</td>
-            <td class=xl6622412 style='border-top:none;border-left:none' colspan="2">10</td>
-            <td class=xl10622412 style='border-right:.5pt solid black;
-  border-left:none'>PCS
-            </td>
-            <td class=xl7222412 style='border-top:none'>220.00</td>
-            <td class=xl7322412 align=right style='border-top:none' colspan="2">2,200.00</td>
-        </tr>
-                        <tr height=26 style='mso-height-source:userset;height:19.5pt'>
-            <td height=26 class=xl6622412 style='height:19.5pt;border-top:none'>1</td>
-            <td class=xl7522412 style='border-top:none;border-left:none' colspan="2">Bandsaw Simple
-                Roller MM 20.2
-            </td>
-            <td class=xl6622412 style='border-top:none;border-left:none'>8461</td>
-            <td class=xl6622412 style='border-top:none;border-left:none' colspan="2">10</td>
-            <td class=xl10622412 style='border-right:.5pt solid black;
-  border-left:none'>PCS
+  border-left:none'>
             </td>
             <td class="priyank" style='border-top:none'>&nbsp;&nbsp;
                 <b>Total</b></td>
-            <td class=xl7322412 align=right style='border-top:none' colspan="2"><b>2,200.00</b></td>
+            <td class=xl7322412 align=right style='border-top:none' colspan="2"><b>{{ details.gst_without | stringformat:".2f" }}</b></td>
         </tr>
 
         <tr height=32 style='mso-height-source:userset;height:24.0pt'>
@@ -1436,7 +1341,7 @@
                     class="font1422412">SARASPUR NAGARIK CO-OP BANK LTD</font><font
                     class="font922412"><span style='mso-spacerun:yes'>  </span></font></td>
             <td class="priyank" style='border-top:none;border-left:none'>&nbsp;&nbsp;<b>CGST(9%)</b></td>
-            <td class=xl7422412 style='border-top:none;border-left:none'>198.00</td>
+            <td class=xl7422412 style='border-top:none;border-left:none'>{{details.cgst }}</td>
         </tr>
         <tr height=29 style='mso-height-source:userset;height:21.75pt'>
             <td colspan=7 height=29 class=xl6322412 style='height:21.75pt'><font
@@ -1444,7 +1349,7 @@
                     class="font722412"> </font><font class="font1222412">002111101010291 </font><font
                     class="font1122412"><span style='mso-spacerun:yes'>    </span></font></td>
             <td class=priyank style='border-top:none;border-left:none'>&nbsp;&nbsp;<b>SGST(9%)</b></td>
-            <td class=xl7422412 style='border-top:none;border-left:none' colspan="1">198.00</td>
+            <td class=xl7422412 style='border-top:none;border-left:none' colspan="1">{{details.sgst | stringformat:".2f" }}</td>
         </tr>
         <tr height=25 style='mso-height-source:userset;height:18.75pt'>
             <td colspan=7 height=25 class=xl8022412 style='height:18.75pt'>IFSC Code :<font
@@ -1452,20 +1357,20 @@
                     style='mso-spacerun:yes'>       </span>BRANCH: </font><font
                     class="font1222412">SARASPUR,AHMEBADAD</font></td>
             <td class="priyank" style='border-top:none;border-left:none'>&nbsp;&nbsp;<b>IGST(18%)</b></td>
-            <td class=xl7422412 style='border-top:none;border-left:none'>0.00</td>
+            <td class=xl7422412 style='border-top:none;border-left:none'>{{details.igst | stringformat:".2f"}}</td>
         </tr>
         <tr height=30 style='mso-height-source:userset;height:22.5pt'>
             <td colspan=7 height=30 class=xl8022412 style='height:22.5pt'>GSTIN: <font
                     class="font1622412">24ANRPP8078R1ZP</font></td>
             <td class=priyank style='border-top:none;border-left:none'>&nbsp;&nbsp;Round Off</td>
-            <td class=xl7722412 style='border-top:none;border-left:none'></td>
+            <td class=xl7722412 style='border-top:none;border-left:none'>{{details.round_off | stringformat:".2f" }}</td>
         </tr>
         <tr height=37 style='mso-height-source:userset;height:27.75pt'>
             <td colspan=7 height=37 class=xl8222412 style='border-right:.5pt solid black;
-  height:27.75pt'>Rupees: two thousand, five hundred ninety-two
+  height:27.75pt'>Words :{{words |add:" " | add:"only."}}
             </td>
             <td class="priyank" style='border-top:none;border-left:none'><b>Grand Total</b></td>
-            <td class=xl7922412 style='border-top:none;border-left:none'><b>100000.00</b></td>
+            <td class=xl7922412 style='border-top:none;border-left:none'><b>{{details.total_amount | stringformat:".2f"}} </b></td>
         </tr>
         <tr height=17 style='mso-height-source:userset;height:12.75pt'>
             <td colspan=7 height=17 class=xl8522412 style='height:12.75pt'>Terms:1<font

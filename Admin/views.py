@@ -6,6 +6,7 @@ from django.views.generic import CreateView, ListView
 from .forms import *
 from .models import *
 from datetime import date
+from num2words import num2words
 
 
 def index(request):
@@ -40,9 +41,24 @@ class productShow(ListView):
     template_name = 'product_details.html'
 
 
-class invoicePrint(View):
-    def get(self, request):
-        return render(request, "invoice-special.html")
+def invoicePrint(request, pk):
+    productsBill = ProductSelling.objects.filter(billDetails=pk)
+    billDetails = BillDetails.objects.get(id=pk)
+    grand_total = billDetails.total_amount
+    grand_total = num2words(grand_total)
+    values = ProductSelling.objects.filter(billDetails=pk).count()
+    final = 9 - values
+    lst = []
+    for i in range(1,final +1):
+        lst.append(i)
+    context = {
+        'data' : productsBill,
+        'details' : billDetails,
+        'words':grand_total.capitalize(),
+        'looping' :lst
+    }
+
+    return render(request, 'invoice-special.html',context )
 
 
 class invoiceBillShow(ListView):
@@ -71,13 +87,11 @@ def ProductOne(request, pk):
 
 class getInvoiceNumber(View):
     def get(self, request):
-
         billdetails = BillDetails.objects.all().last()
         number = 1
         if billdetails:
-              number = int(billdetails.invoice_no)
-              print(number)
-              number += 1
+            number = int(billdetails.invoice_no)
+            number += 1
         return JsonResponse({"invoiceNo": number})
 
 
@@ -121,4 +135,4 @@ class allData(View):
                 productSelling.save()
         except Exception as e:
             return JsonResponse({"resp": print(e)})
-        return JsonResponse({"resp": "Succesfully insert Data"})
+        return JsonResponse({"resp": billDetails.id})
