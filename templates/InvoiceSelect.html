@@ -1,0 +1,71 @@
+{% extends 'index.html'%}
+    {% block content %}
+                <div class="page-content">
+                    <div class="container-fluid">
+
+                        <!-- start page title -->
+                        <div class="row">
+                            <div class="col-12">
+                                <div class="page-title-box ">
+                                      <div class="mb-2" style="float:left;margin-right:20px">
+                                        <label><b>Starting Date</b></label>
+                                        <input type="date"  class="form-control" name ="startingDate" id ="startingDate" />
+                                      </div>
+                                      <div class="mb-2" style="float:left;margin-right:20px">
+                                        <label><b>ending Date</b></label>
+                                        <input type="date"  class="form-control" name ="endingDate" id ="edingDate" />
+                                      </div>
+                                    <div class="mb-2" style="float:left">
+                                        <label><b>Net Profit </b></label>
+                                          <input type="text"  class="form-control" name ="endingDate" id ="netProfit" readonly/>
+                                    </div>
+
+                                    <div class="mb-2" style="float:right">
+                                        <label><b>Search Inovice No.</b></label>
+                                        <input type="number"  class="form-control" name ="searchByName" id ="searchbyNo" />
+                                </div>
+                                    </div>
+                            </div>
+                        </div>
+                        <!-- end page title -->
+
+                        <div class="row" >
+                            <div class="col-12">
+                                <div class="card">
+
+                                    <div class="card-body">
+                                        <div class="table-rep-plugin">
+                                            <div class="table-responsive mb-0" data-pattern="priority-columns">
+                                                <table id="invoice-data" class="table">
+                                                    <thead>
+                                                    <tr>
+                                                        <th>Sr No</th>
+                                                        <th>Inovice No</th>
+                                                        <th>Total Amount </th>
+                                                        <th>Sub Total</th>
+                                                        <th>Date</th>
+                                                    </tr>
+                                                    </thead>
+                                                    <tbody id="dataParty">
+                                                    {% for invoice in object_list %}
+                                                    <tr>
+                                                        <td> {{ forloop.counter }} </td>
+                                                        <td>{{ invoice.invoice_no }}</td>
+                                                        <td>{{ invoice.total_amount }} </td>
+                                                        <td>{{ invoice.gst_without }} </td>
+                                                        <td>{{ invoice.date | date:"d/m/Y"  }} </td>
+                                                    </tr>
+                                                    {% endfor %}
+                                                    </tbody>
+                                                </table>
+                                            </div>
+
+                                        </div>
+
+                                    </div>
+                                </div>
+                            </div> <!-- end col -->
+                        </div> <!-- end row -->
+                    </div> <!-- container-fluid -->
+                </div>
+            {%endblock content %}

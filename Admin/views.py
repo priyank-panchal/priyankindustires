@@ -7,6 +7,7 @@ from .forms import *
 from .models import *
 from datetime import date
 from num2words import num2words
+from django.core import serializers
 
 
 def index(request):
@@ -49,16 +50,16 @@ def invoicePrint(request, pk):
     values = ProductSelling.objects.filter(billDetails=pk).count()
     final = 9 - values
     lst = []
-    for i in range(1,final +1):
+    for i in range(1, final + 1):
         lst.append(i)
     context = {
-        'data' : productsBill,
-        'details' : billDetails,
-        'words':grand_total.capitalize(),
-        'looping' :lst
+        'data': productsBill,
+        'details': billDetails,
+        'words': grand_total.capitalize(),
+        'looping': lst
     }
 
-    return render(request, 'invoice-special.html',context )
+    return render(request, 'invoice-special.html', context)
 
 
 class invoiceBillShow(ListView):
@@ -136,3 +137,13 @@ class allData(View):
         except Exception as e:
             return JsonResponse({"resp": print(e)})
         return JsonResponse({"resp": billDetails.id})
+
+
+class invoiceShow(ListView):
+    model = BillDetails
+    template_name = 'InvoiceSelect.html'
+
+
+def invoiceSearchNo(request, pk):
+        data = list(BillDetails.objects.filter(invoice_no = pk).values())
+        return JsonResponse({"party":data })

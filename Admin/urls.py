@@ -11,6 +11,7 @@ urlpatterns = [
     path('invoice/gstNo/<int:pk>',gstDetails,name ='gstNo'),
     path('invoice/allData/',allData.as_view(),name='data-all'),
     path('invoice/print/<int:pk>',invoicePrint,name='invoice-print'),
-    path('invoice/invoiceNumber/', getInvoiceNumber.as_view(), name='invoice-print')
-
+    path('invoice/invoiceNumber/', getInvoiceNumber.as_view(), name='invoice-print'),
+    path('invoice/show/',invoiceShow.as_view(),name='invoice-show'),
+    path('searchByNo/<int:pk>',invoiceSearchNo,name='invoice-show')
 ]

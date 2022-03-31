@@ -1235,31 +1235,31 @@
         </tr>
         <tr height=36 style='mso-height-source:userset;height:27.0pt'>
             <td colspan=5 height=36 class=xl8722412 style='border-right:.5pt solid black;
-  height:27.0pt'>state: <font class="font022412"> {{details.party.state}}</font></td>
+  height:27.0pt'>&nbsp;State: <font class="font022412"> {{details.party.state}}</font></td>
             <td colspan=4 class=xl8722412 style='border-right:.5pt solid black;
-  border-left:none'>Invoice No: {{details.invoice_no }}
+  border-left:none'>&nbsp;Invoice No: {{details.invoice_no }}
             </td>
         </tr>
         <tr height=35 style='mso-height-source:userset;height:26.25pt'>
             <td colspan=5 height=35 class=xl8722412 style='border-right:.5pt solid black;
-  height:26.25pt'>M/S:<font class="font1622412"> {{ details.party.party_name }} </font></td>
+  height:26.25pt'>&nbsp;M/S:<font class="font1622412"> {{ details.party.party_name }} </font></td>
             <td colspan=4 class=xl10922412 style='border-right:.5pt solid black;
-  border-left:none'>Date : {{ details.date }}
+  border-left:none'>&nbsp;Date :&nbsp;{% now "d/m/Y" %}
             </td>
         </tr>
         <tr height=34 style='mso-height-source:userset;height:25.5pt'>
             <td colspan=5 height=34 class=xl8722412 style='border-right:.5pt solid black;
-  height:25.5pt'>Address:<font class="font022412">{{details.party.address |slice:"0:50" }}<span style='mso-spacerun:yes'> </span></font></td>
+  height:25.5pt'>&nbsp;Address&nbsp;:<font class="font022412">&nbsp;{{details.party.address |slice:"0:50" }}<span style='mso-spacerun:yes'> </span></font></td>
             <td colspan=4 class=xl9622412 style='border-right:.5pt solid black;
-  border-left:none'>LR No:
+  border-left:none'>&nbsp;LR No:
             </td>
         </tr>
         <tr height=27 style='mso-height-source:userset;height:20.25pt'>
             <td colspan=5 height=27 class=xl9222412 style='border-right:.5pt solid black;
-  height:20.25pt'>{{details.party.address |slice:"50:100" }}
+  height:20.25pt'>&nbsp;{{details.party.address |slice:"50:100" }}
             </td>
             <td colspan=4 rowspan=2 class=xl10222412 width=173 style='border-right:.5pt solid black;
-  border-bottom:.5pt solid black;width:131pt'>Party Mo:<font class="font022412">{{ details.party.phone_no }} </font></td>
+  border-bottom:.5pt solid black;width:131pt'>&nbsp;Mobile No: <font class="font022412">{{ details.party.phone_no }} </font></td>
         </tr>
         <tr height=31 style='mso-height-source:userset;height:23.25pt'>
             <td colspan=5 height=31 class=xl9522412 style='border-right:.5pt solid black;
@@ -1269,7 +1269,7 @@
         </tr>
         <tr height=41 style='mso-height-source:userset;height:30.75pt'>
             <td colspan=5 height=41 class=xl8722412 style='border-right:.5pt solid black;
-  height:30.75pt'>PARTY GSTNO:<font class="font1622412">{{ details.party.gst_no }}</font></td>
+  height:30.75pt'>&nbsp;PARTY GSTNO:<font class="font1622412">{{ details.party.gst_no }}</font></td>
             <td colspan=4 class=xl9922412 width=173 style='border-right:.5pt solid black;
   border-left:none;width:131pt'>&nbsp;
             </td>
@@ -1301,7 +1301,7 @@
             <td class=xl10622412 style='border-right:.5pt solid black;
   border-left:none'>{{i.product.per }}
             </td>
-            <td class=xl7222412 style='border-top:none'>{{i.rate }}</td>
+            <td class=xl7222412 style='border-top:none'>{{i.rate | stringformat:".2f"}}</td>
             <td class=xl7322412 align=right style='border-top:none' >{{i.amount | stringformat:".2f" }}</td>
         </tr>
         {% endfor %}
@@ -1341,7 +1341,7 @@
                     class="font1422412">SARASPUR NAGARIK CO-OP BANK LTD</font><font
                     class="font922412"><span style='mso-spacerun:yes'>  </span></font></td>
             <td class="priyank" style='border-top:none;border-left:none'>&nbsp;&nbsp;<b>CGST(9%)</b></td>
-            <td class=xl7422412 style='border-top:none;border-left:none'>{{details.cgst }}</td>
+            <td class=xl7422412 style='border-top:none;border-left:none'>{{details.cgst | stringformat:".2f" }}</td>
         </tr>
         <tr height=29 style='mso-height-source:userset;height:21.75pt'>
             <td colspan=7 height=29 class=xl6322412 style='height:21.75pt'><font

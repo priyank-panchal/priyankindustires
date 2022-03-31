@@ -1,4 +1,5 @@
 //api called
+
 $("#FetchData").on("focusout",function() {
     var gstNo = $(this).val();
     gstNo =gstNo.toUpperCase();
@@ -40,6 +41,7 @@ $("#FetchData").on("focusout",function() {
 //adding deleteing logic
 var i=1;
 $(document).ready(function(){
+
        $("#add_row").click(function(e){
         e.preventDefault();
        b=i-1;
@@ -96,17 +98,22 @@ function calculate(){
 		        $("#SGST").val(convertFixSize);
 		        $("#IGST").val(0.00);
 		}else{
-		        var sub_total = sub_total * 18 / 100
+		        var sub_total = sub_total * 0.18;
 		        var convertFixSize = sub_total.toFixed(2);
+		        console.log(convertFixSize)
 		        $("#CGST").val(0.00);
 		        $("#SGST").val(0.00);
 		        $("#IGST").val(convertFixSize);
 		}
 		var roundOffValue = parseFloat( $("#RoundOff").val());
-		var grandTotal;
-		grandTotal =sub_total + (parseFloat($("#CGST").val() ) + parseFloat($("#SGST").val() )  + parseFloat($("#IGST").val() ) -
-		parseFloat($("#RoundOff").val() ) );
+		var grandTotal=0;
+		grandTotal = parseFloat($("#sub_total").val()) +
+		parseFloat($("#CGST").val() ) +
+		parseFloat($("#SGST").val())
+		+ parseFloat($("#IGST").val()) - parseFloat($("#RoundOff").val());
+		console.log(grandTotal)
 		$("#GrandTotal").val(grandTotal.toFixed(2));
+		console.log(grandTotal)
 }
 
 //round off logic
@@ -209,6 +216,37 @@ csrf_token = getCookie('csrftoken');
                     $("#invoiceNumber").val(data['invoiceNo'])
 				}
 			});
+ });
+ var tableData = $("#invoice-data").find("tbody > tr");
+  $('#searchbyNo').on("keyup",function(){
+        $("#dataParty").empty();
+        var value = $("#searchbyNo").val();
+        if($.isNumeric($("#searchbyNo").val()) && $("#searchbuNo").val() != '') {
+                $.ajax({
+				method : "get",
+				url :'/searchByNo/'+ value,
+				success : function(data){
+				    console.log(data)
+				    var success ="";
+                    var netProfit = 0.00;
+                    for(var i = 0;i < data['party'].length; ++i){
+                          var invoice_no = data['party'][i].invoice_no;
+                          var subtotal = data['party'][i].gst_without;
+                          var total = data['party'][i].total_amount;
+                          var date = data['party'][i].date;
+                          var d = new Date(date)
+                          date = d.getDate()+'/'+ (d.getMonth() + 1)+'/'+d.getFullYear()
+                          netProfit +=total;
+                          success+="<tr><td>"+ (i +1) +"</td><td>"+invoice_no+"<td>"+total+"</td><td>"+subtotal+"</td><td>"+ date +"</td></tr>";
+                       }
+                    $("#dataParty").append(success);
+                    $("#netProfit").val(netProfit);
+				}
+			});
+        }
+        else {
+        $("#invoice-data").find("tbody").append(tableData);
+        }
  });
 
 
