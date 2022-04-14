@@ -1,4 +1,9 @@
+import datetime
+
+from django.contrib import messages
 from django.contrib.messages.views import SuccessMessageMixin
+from django.db.models import Sum, Count
+from django.db.models.functions import TruncMonth, ExtractMonth
 from django.http import JsonResponse
 from django.shortcuts import render
 from django.views import View
@@ -7,11 +12,23 @@ from .forms import *
 from .models import *
 from datetime import date
 from num2words import num2words
-from django.core import serializers
+from django.db import connection
 
 
 def index(request):
-    return render(request, 'invoice-generate.html')
+    party = PartyDetails.objects.all().count()
+    now = datetime.datetime.now()
+    total_income = BillDetails.objects.filter(date__year = now.year , date__month=now.month).aggregate(total_income=Sum('gst_without'))['total_income']
+    orders = BillDetails.objects.filter(date__year = now.year , date__month=now.month).aggregate(orders=Count('id'))['orders']
+    monthProfits = BillDetails.objects.annotate(month=TruncMonth('date')).values('month').annotate(month_wise=Sum('gst_without')).order_by('month').values('month','month_wise')
+    context={
+        'party':party,
+        'order':orders,
+        'total_income':total_income,
+        'monthProfits':monthProfits
+    }
+
+    return render(request, 'Dashbord.html',context)
 
 
 def partyDetails(request):
@@ -21,8 +38,14 @@ def partyDetails(request):
 class partyAdd(SuccessMessageMixin, CreateView):
     form_class = partyAddForm
     success_message = "Submitted data created successfully"
+    error_message = 'GST number should be unique'
     template_name = "Party_Add.html"
     success_url = "/partyAdd"
+
+    def form_invalid(self, form):
+        print(form.cleaned_data)
+        messages.error(self.request, self.error_message)
+        return super().form_invalid(form)
 
 
 class partyShow(ListView):
@@ -34,7 +57,12 @@ class productAdd(SuccessMessageMixin, CreateView):
     form_class = productAddForm
     success_message = "Submitted data created successfully"
     template_name = "product_add.html"
-    success_url = "/index/productDetails"
+    success_url = "/productDetails"
+    error_message = 'Product Name should be unique'
+
+    def form_invalid(self, form):
+        messages.error(self.request, self.error_message)
+        return super().form_invalid(form)
 
 
 class productShow(ListView):
@@ -144,6 +172,32 @@ class invoiceShow(ListView):
     template_name = 'InvoiceSelect.html'
 
 
+class PartyWiseProfit(ListView):
+    model = BillDetails
+    template_name = 'Party-wise-profit.html'
+
+
 def invoiceSearchNo(request, pk):
-        data = list(BillDetails.objects.filter(invoice_no = pk).values())
-        return JsonResponse({"party":data })
+    data = list(BillDetails.objects.filter(invoice_no=pk).values())
+    return JsonResponse({"party": data})
+
+
+def invoiceSearchByDate(request, start, end):
+    data = list(BillDetails.objects.filter(date__range=[start, end]).values())
+    return JsonResponse({"party": data})
+
+
+def searchByParty(request, start, end):
+    data = list(BillDetails.objects.filter(date__range=[start, end]).values())
+    partyExists = []
+    dict = {}
+    for i in range(0, len(data)):
+        if data[i]['party_id'] in partyExists:
+            dict[data[i]['party_id']][0] += data[i]['gst_without']
+        else:
+            partyExists.append(data[i]['party_id'])
+            print(data[i]['party_id'])
+            Party = PartyDetails.objects.get(id=data[i]['party_id'])
+            dict[i] = [data[i]['gst_without'], Party.party_name,Party.gst_no]
+            print(dict)
+    return JsonResponse({"party": dict})

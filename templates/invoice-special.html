@@ -1,3 +1,4 @@
+{% load humanize %}
 <html xmlns:o="urn:schemas-microsoft-com:office:office"
       xmlns:x="urn:schemas-microsoft-com:office:excel"
       xmlns="http://www.w3.org/TR/REC-html40">
@@ -1301,8 +1302,8 @@
             <td class=xl10622412 style='border-right:.5pt solid black;
   border-left:none'>{{i.product.per }}
             </td>
-            <td class=xl7222412 style='border-top:none'>{{i.rate | stringformat:".2f"}}</td>
-            <td class=xl7322412 align=right style='border-top:none' >{{i.amount | stringformat:".2f" }}</td>
+            <td class=xl7222412 style='border-top:none'>{{i.rate | stringformat:".2f" |intcomma}}</td>
+            <td class=xl7322412 align=right style='border-top:none' >{{i.amount | stringformat:".2f" |intcomma  }}</td>
         </tr>
         {% endfor %}
             {% for i in looping %}
@@ -1332,7 +1333,7 @@
             </td>
             <td class="priyank" style='border-top:none'>&nbsp;&nbsp;
                 <b>Total</b></td>
-            <td class=xl7322412 align=right style='border-top:none' colspan="2"><b>{{ details.gst_without | stringformat:".2f" }}</b></td>
+            <td class=xl7322412 align=right style='border-top:none' colspan="2"><b>{{ details.gst_without | stringformat:".2f" | intcomma }}</b></td>
         </tr>
 
         <tr height=32 style='mso-height-source:userset;height:24.0pt'>
@@ -1341,7 +1342,7 @@
                     class="font1422412">SARASPUR NAGARIK CO-OP BANK LTD</font><font
                     class="font922412"><span style='mso-spacerun:yes'>  </span></font></td>
             <td class="priyank" style='border-top:none;border-left:none'>&nbsp;&nbsp;<b>CGST(9%)</b></td>
-            <td class=xl7422412 style='border-top:none;border-left:none'>{{details.cgst | stringformat:".2f" }}</td>
+            <td class=xl7422412 style='border-top:none;border-left:none'>{{details.cgst | stringformat:".2f" |intcomma }}</td>
         </tr>
         <tr height=29 style='mso-height-source:userset;height:21.75pt'>
             <td colspan=7 height=29 class=xl6322412 style='height:21.75pt'><font
@@ -1349,7 +1350,7 @@
                     class="font722412"> </font><font class="font1222412">002111101010291 </font><font
                     class="font1122412"><span style='mso-spacerun:yes'>    </span></font></td>
             <td class=priyank style='border-top:none;border-left:none'>&nbsp;&nbsp;<b>SGST(9%)</b></td>
-            <td class=xl7422412 style='border-top:none;border-left:none' colspan="1">{{details.sgst | stringformat:".2f" }}</td>
+            <td class=xl7422412 style='border-top:none;border-left:none' colspan="1">{{details.sgst | stringformat:".2f" |intcomma  }}</td>
         </tr>
         <tr height=25 style='mso-height-source:userset;height:18.75pt'>
             <td colspan=7 height=25 class=xl8022412 style='height:18.75pt'>IFSC Code :<font
@@ -1357,7 +1358,7 @@
                     style='mso-spacerun:yes'>       </span>BRANCH: </font><font
                     class="font1222412">SARASPUR,AHMEBADAD</font></td>
             <td class="priyank" style='border-top:none;border-left:none'>&nbsp;&nbsp;<b>IGST(18%)</b></td>
-            <td class=xl7422412 style='border-top:none;border-left:none'>{{details.igst | stringformat:".2f"}}</td>
+            <td class=xl7422412 style='border-top:none;border-left:none'>{{details.igst | stringformat:".2f" | intcomma }}</td>
         </tr>
         <tr height=30 style='mso-height-source:userset;height:22.5pt'>
             <td colspan=7 height=30 class=xl8022412 style='height:22.5pt'>GSTIN: <font
@@ -1370,7 +1371,7 @@
   height:27.75pt'>Words :{{words |add:" " | add:"only."}}
             </td>
             <td class="priyank" style='border-top:none;border-left:none'><b>Grand Total</b></td>
-            <td class=xl7922412 style='border-top:none;border-left:none'><b>{{details.total_amount | stringformat:".2f"}} </b></td>
+            <td class=xl7922412 style='border-top:none;border-left:none'><b>{{details.total_amount | stringformat:".2f" | intcomma }} </b></td>
         </tr>
         <tr height=17 style='mso-height-source:userset;height:12.75pt'>
             <td colspan=7 height=17 class=xl8522412 style='height:12.75pt'>Terms:1<font

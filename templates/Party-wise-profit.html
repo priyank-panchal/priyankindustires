@@ -1,4 +1,6 @@
+
 {% extends 'index.html'%}
+{% load humanize %}
     {% block content %}
                 <div class="page-content">
                     <div class="container-fluid">
@@ -6,52 +8,56 @@
                         <!-- start page title -->
                         <div class="row">
                             <div class="col-12">
-                                <div class="page-title-box d-flex align-items-center justify-content-between">
-                                    <h4 class="mb-0">Product Details</h4>
-                                </div>
+                                <div class="page-title-box ">
+                                      <div class="mb-2" style="float:left;margin-right:20px">
+                                        <label><b>Starting Date</b></label>
+                                        <input type="date"  class="form-control" name ="startingDate" id ="PartystartingDate" />
+                                      </div>
+                                      <div class="mb-2" style="float:left;margin-right:20px">
+                                        <label><b>ending Date</b></label>
+                                        <input type="date"  class="form-control" name ="endingDate" id ="PartyendingDate" />
+                                      </div>
+
+                                    </div>
                             </div>
                         </div>
+                        <!-- end page title -->
+
                         <div class="row" >
                             <div class="col-12">
                                 <div class="card">
+
                                     <div class="card-body">
-                                              {% if messages %}
-                                            {% for message in messages %}
-                                                       <script>  alert('{{message}}') </script>
-                                            {% endfor %}
-                                        {% endif %}
-                                        <a href="{% url 'product_add' %}" class="btn btn-primary" style="color: white;margin-bottom:20px;"><i class="bx bx-add-to-queue"></i>Add</a></button>
-        
                                         <div class="table-rep-plugin">
                                             <div class="table-responsive mb-0" data-pattern="priority-columns">
-                                                <table  id="datatable" class="table">
+                                                <table id="Krishna" class="table">
                                                     <thead>
                                                     <tr>
                                                         <th>Sr No</th>
-                                                        <th>Product Name</th>
-                                                        <th>HSN Code</th>
-                                                        <th>Per</th>
+                                                        <th>Party Name</th>
+                                                        <th>GST No.</th>
+                                                        <th>Net Profit</th>
                                                     </tr>
                                                     </thead>
-
-                                                    {% for productDetails in object_list %}
+                                                    <tbody id="Partywise">
+                                                    {% for invoice in object_list %}
                                                     <tr>
                                                         <td> {{ forloop.counter }} </td>
-                                                        <td>{{ productDetails.product_name }}</td>
-                                                        <td>{{ productDetails.hsn_code }}</td>
-                                                        <td>{{ productDetails.per }} </td>
+                                                        <td> {{invoice.party.party_name }}</td>
+                                                        <td> {{invoice.party.gst_no }}</td>
+                                                        <td>{{ invoice.total_amount  | intcomma }} </td>
                                                     </tr>
                                                     {% endfor %}
                                                     </tbody>
                                                 </table>
                                             </div>
-        
+
                                         </div>
-        
+
                                     </div>
                                 </div>
                             </div> <!-- end col -->
                         </div> <!-- end row -->
                     </div> <!-- container-fluid -->
                 </div>
-            {%endblock content %}
+{%endblock content %}

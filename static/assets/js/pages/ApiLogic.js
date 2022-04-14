@@ -15,7 +15,6 @@ $("#FetchData").on("focusout",function() {
             "X-RapidAPI-Key": "b11e8602d0mshc7cc21e6c249368p164ebejsn727e73e31698"
          },
          success: function (data) {
-                console.log("starting")
                if(data.success == true){
                     var address = data['data']['details']['principalplace']
                     address = address.replace(",,",",");
@@ -24,7 +23,7 @@ $("#FetchData").on("focusout",function() {
                     var name = data['data']['details']['tradename'];
                     var pincode = data['data']['details']['pincode'];
                     $("#StateApi").val(state);
-                    $("#PartyApi").val(name);
+                    $("#PartyApi").val(name.toUpperCase());
                     address = address.toLowerCase().replace(/\b[a-z]/g, function(letter) {
                        return letter.toUpperCase();
                      });
@@ -140,6 +139,13 @@ $('#TBody').delegate(".orderName",'change', function() {
     //gst number details filed logic
   $('#Meldi').on('change', function() {
         var partyId = $(this).val();
+        $.ajax({
+				method : "get",
+				url :'invoiceNumber/' ,
+				success : function(data){
+                    $("#invoiceNumber").val(data['invoiceNo'])
+				}
+		});
          $.ajax({
          type:"GET",
          url: "gstNo/" + partyId,
@@ -184,14 +190,7 @@ csrf_token = getCookie('csrftoken');
         alert("Product Name not Selected")
         isValid=false;
      }
-     if($(".qty").val() == ""){
-        alert("Qty Not filled");
-        isValid=false;
-     }
-     if($(".rate").val() == ""){
-        alert("Rate Not filled")
-        isValid = false;
-     }
+
      if(isValid == true){
    	$.ajax({
 				url :'allData/' ,
@@ -207,28 +206,25 @@ csrf_token = getCookie('csrftoken');
     }
  });
 
- $('#invoiceNumber').focus(function(){
-    console.log("jay meldi ma ")
-  	$.ajax({
-				method : "get",
-				url :'invoiceNumber/' ,
-				success : function(data){
-                    $("#invoiceNumber").val(data['invoiceNo'])
-				}
-			});
- });
+
  var tableData = $("#invoice-data").find("tbody > tr");
-  $('#searchbyNo').on("keyup",function(){
-        $("#dataParty").empty();
-        var value = $("#searchbyNo").val();
-        if($.isNumeric($("#searchbyNo").val()) && $("#searchbuNo").val() != '') {
-                $.ajax({
+
+ $("#endingDate").on("change",function(){
+        var startDate = $('#startingDate').val();
+        var endDate = $('#endingDate').val();
+        if($("#startingDate").val() == ""){
+            alert("Starting Date are not filling..")
+        }
+        else if(startDate < endDate) {
+          $("#dataParty").empty();
+           $.ajax({
 				method : "get",
-				url :'/searchByNo/'+ value,
+				url :'/searchByDate/'+ startDate.toString() +"/" + endDate.toString(),
 				success : function(data){
-				    console.log(data)
+				   $("#dataParty").empty();
 				    var success ="";
                     var netProfit = 0.00;
+                    var gstPay = 0.00;
                     for(var i = 0;i < data['party'].length; ++i){
                           var invoice_no = data['party'][i].invoice_no;
                           var subtotal = data['party'][i].gst_without;
@@ -236,18 +232,60 @@ csrf_token = getCookie('csrftoken');
                           var date = data['party'][i].date;
                           var d = new Date(date)
                           date = d.getDate()+'/'+ (d.getMonth() + 1)+'/'+d.getFullYear()
-                          netProfit +=total;
-                          success+="<tr><td>"+ (i +1) +"</td><td>"+invoice_no+"<td>"+total+"</td><td>"+subtotal+"</td><td>"+ date +"</td></tr>";
+                          netProfit +=subtotal;
+                          gstPay += total;
+                          success+="<tr><td>"+ (i +1) +"</td><td>"+invoice_no+
+                          "<td>"+total.toLocaleString()+
+                          "</td><td>"+subtotal.toLocaleString() +
+                          "</td><td>"+
+                          date +
+                          "</td></tr>";
                        }
+                    gstPay = gstPay - netProfit;
                     $("#dataParty").append(success);
-                    $("#netProfit").val(netProfit);
+                    $("#netProfit").val(netProfit.toLocaleString());
+                    $("#gst").val(gstPay.toLocaleString());
 				}
-			});
-        }
+				});
+				}
         else {
-        $("#invoice-data").find("tbody").append(tableData);
+            alert("Not Valid Date range.")
         }
- });
+    });
 
+$(document).ready(function(){
+    $('#datatable').dataTable();
+    $('#invoice-data').dataTable();
+   $("#Meldi").select2();
 
+});
+
+$("#PartyendingDate").on("change",function(){
+        var startDate = $('#PartystartingDate').val();
+        var endDate = $('#PartyendingDate').val();
+        if($("#PartystartingDate").val() == ""){
+            alert("Starting Date are not filling..")
+        }
+        else if(startDate < endDate) {
+          $("#Partywise").empty();
+           $.ajax({
+				method : "get",
+				url :'/searchByParty/'+ startDate.toString() +"/" + endDate.toString(),
+				success : function(data){
+				  var success = "";
+				  var increment = 0;
+		         $.each(data['party'], function(index, value){
+		          success+="<tr><td>"+ (++increment) +"</td><td>"+value[1]+
+		                    "</td><td>" + value[2] +
+                          "</td><td>"+value[0].toLocaleString()+
+                          "</td></tr>";
+                 });
+                 $("#Partywise").append(success);
+				}
+				});
+				}
+        else {
+            alert("Not Valid Date range.")
+        }
+    });
 

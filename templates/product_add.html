@@ -7,25 +7,31 @@
         <div class="card">
             <div class="card-body">
                 <h4 class="card-title">Add products Here</h4>
-                <p &nbsp;></p>
+
+                 {% if messages %}
+                          {% for message in messages %}
+                              <script>  alert('{{message}}') </script>
+                        {% endfor %}
+                        {% endif %}
+
                 <form action="" method="POST">
                     {% csrf_token %}
                 <div class="mb-3 row">
                     <label for="example-text-input" class="col-md-2 col-form-label">Product Name</label>
                     <div class="col-md-10">
-                        <input class="form-control" name ="product_name" type="text"  id="example-text-input" data-required="true" >
+                        <input class="form-control" name ="product_name" type="text"  id="example-text-input" required >
                     </div>
                 </div>
                       <div class="mb-3 row">
                     <label for="example-text-input" class="col-md-2 col-form-label">HSN Code</label>
                     <div class="col-md-10">
-                        <input class="form-control" name ="hsn_code" type="text"  id="example-text-input" data-required="true" >
+                        <input class="form-control" name ="hsn_code" type="number"  id="example-text-input" required >
                     </div>
                 </div>
                     <div class="mb-3 row">
-                                            <label class="col-md-2 col-form-label">Select</label>
+                                            <label class="col-md-2 col-form-label" >Select</label>
                                             <div class="col-md-10">
-                                                <select class="form-select" name="per">
+                                                <select class="form-select" name="per" >
                                                     <option>Select</option>
                                                     <option>PCS</option>
                                                     <option>SET</option>
@@ -33,11 +39,17 @@
                                                 </select>
                                             </div>
                     </div>
-                
-                <button type="submit" class="btn btn-success" style="margin-bottom: 20px;"><i class="bx bx-check-circle"></i>&nbsp;&nbsp;SUBMIT</button>
-                <button type="button" class="btn btn-success" style="margin-bottom: 20px;"><a href="" style="color: white;"><i class="bx bx-undo"></i>&nbsp;&nbsp;BACK</a></button>
+                                            <div>
+                                                <div>
+                                                    <button type="submit" class="btn btn-primary waves-effect waves-light me-1">
+                                                        Submit
+                                                    </button>
+                                                    <button type="reset" class="btn btn-secondary waves-effect">
+                                                        Cancel
+                                                    </button>
+                                                </div>
+                                            </div>
                 </form>
-               
             </div>
         </div>
     </div> <!-- end col -->
