@@ -1,0 +1,1 @@
+web: gunicorn Priyank_industries.wsgi
