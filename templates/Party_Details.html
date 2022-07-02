@@ -1,56 +1,69 @@
-{% extends 'index.html'%}
-    {% block content %}
-                <div class="page-content">
-                    <div class="container-fluid">
-                        <div class="row">
-                            <div class="col-12">
-                                <div class="page-title-box d-flex align-items-center justify-content-between">
-                                    <h4 class="mb-0">Party Details</h4>
-                                </div>
-                            </div>
-                        </div>
-                        
-                        <div class="row" >
-                            <div class="col-12">
-                                <div class="card">
-                                    <div class="card-body">
-                                        <a href="{% url 'Party_Add' %} " class="btn btn-primary" style="margin-bottom: 20px;color: white;"><i class="bx bx-add-to-queue"></i>&nbspAdd</a>
-                                        <div class="table-rep-plugin">
-                                            <div class="table-responsive mb-0" data-pattern="priority-columns">
-                                                <table id="datatable" class="table">
-                                                    <thead>
-                                                    <tr>
-                                                        <th>Sr No.</th>
-                                                        <th>Gst No.</th>
-                                                        <th>party Name</th>
-                                                        <th>state</th>
-                                                        <th data-priority="7">Mobile No</th>
-                                                        <th data-priority="10">Address</th>
-                                                    </tr>
-                                                    </thead>
-                                                    <tbody>
-                                                    {% for partyDetails in object_list %}
-                                                    <tr>
-                                                        <td> {{ forloop.counter }} </td>
-                                                        <td>{{ partyDetails.gst_no }}</td>
-                                                        <td>{{ partyDetails.party_name }}</td>
-                                                        <td>{{ partyDetails.state }} </td>
-                                                       <td>{{ partyDetails.phone_no }} </td>
-                                                        <td>{{ partyDetails.address }}</td>
-                                                    </tr>
-                                                    {% endfor %}
+{% extends 'index.html'%} {% block content %}
+<div class="page-content">
+  <div class="container-fluid">
+    <div class="row">
+      <div class="col-12">
+        <div
+          class="page-title-box d-flex align-items-center justify-content-between"
+        >
+          <h4 class="mb-0">Party Details</h4>
+        </div>
+      </div>
+    </div>
 
-                                                   
-                                                    </tbody>
-                                                </table>
-                                            </div>
-        
-                                        </div>
-        
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            {%endblock content %}
+    <div class="row">
+      <div class="col-12">
+        <div class="card">
+          <div class="card-body">
+            <a
+              href="{% url 'Party_Add' %} "
+              class="btn btn-primary"
+              style="margin-bottom: 20px; color: white"
+              ><i class="bx bx-add-to-queue"></i>&nbspAdd</a
+            >
+            <div class="table-rep-plugin">
+              <div
+                class="table-responsive mb-0"
+                data-pattern="priority-columns"
+              >
+                <table id="datatable" class="table">
+                  <thead>
+                    <tr>
+                      <th>Sr No.</th>
+                      <th>Gst No.</th>
+                      <th>party Name</th>
+                      <th>state</th>
+                      <th data-priority="7">Mobile No</th>
+                      <th data-priority="10">Address</th>
+                      <th>Action</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    {% for partyDetails in object_list %}
+                    <tr>
+                      <td>{{ forloop.counter }}</td>
+                      <td>{{ partyDetails.gst_no }}</td>
+                      <td>{{ partyDetails.party_name }}</td>
+                      <td>{{ partyDetails.state }}</td>
+                      <td>{{ partyDetails.phone_no }}</td>
+                      <td>{{ partyDetails.address }}</td>
+                      <td>
+                        <a
+                          href="{% url 'party_update' partyDetails.id %}"
+                          class="btn btn-primary"
+                          ><i class="fas fa-edit"></i
+                        ></a>
+                      </td>
+                    </tr>
+                    {% endfor %}
+                  </tbody>
+                </table>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+{%endblock content %}

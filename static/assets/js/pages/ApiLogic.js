@@ -16,21 +16,25 @@ $("#FetchData").on("focusout",function() {
          },
          success: function (data) {
                if(data.success == true){
-                    var address = data['data']['details']['principalplace']
+					console.log(data);
+                    var name = data['data']['details']['tradename'];
+                    var pincode = data['data']['details']['pincode'];
+                    $("#PartyApi").val(name.toUpperCase());
+					if(data['data']['details']['principalplace'] != null){
+                    var address = data['data']['details']['principalplace'];
                     address = address.replace(",,",",");
                     var arr = address.split(",");
                     var state = arr[arr.length - 1];
-                    var name = data['data']['details']['tradename'];
-                    var pincode = data['data']['details']['pincode'];
-                    $("#StateApi").val(state);
-                    $("#PartyApi").val(name.toUpperCase());
+					$("#StateApi").val(state);
                     address = address.toLowerCase().replace(/\b[a-z]/g, function(letter) {
                        return letter.toUpperCase();
                      });
                     $("#AddressApi").val(address +" "+ pincode);
+					}
                }
                else {
-                       alert(data);
+						console.log(data)
+                       alert(data.errormessage);
                }
            }
        });
@@ -58,19 +62,20 @@ $(document).ready(function(){
 
 });
 //qty logic
-$('#TBody').delegate(".qty",'keyup', function() {
+$('#TBody').delegate(".qty",'focusout', function() {
             var qty = $(this);
             var tr = $(this).parent().parent();
             if (qty.val() == null || qty.val() == '') {
 			      alert("Please enter a valid quantity");
 		   }
 		   else{
+		       tr.find(".amount").val(rate.val() * tr.find(".qty").val());
 		      calculate();
 		   }
 
 });
 //rate logic
-$('#TBody').delegate(".rate",'keyup', function() {
+$('#TBody').delegate(".rate",'focusout', function() {
            rate = $(this);
             var tr = $(this).parent().parent();
             if (rate.val() == null || rate.val() == '') {
@@ -190,7 +195,14 @@ csrf_token = getCookie('csrftoken');
         alert("Product Name not Selected")
         isValid=false;
      }
-
+     if($(".rate").val() == ""){
+        alert("Rate not selected ")
+        isValid=false;
+     }
+     if($(".qty").val() == ""){
+        alert("Qty not selected")
+        isValid=false;
+     }
      if(isValid == true){
    	$.ajax({
 				url :'allData/' ,
@@ -230,12 +242,14 @@ csrf_token = getCookie('csrftoken');
                           var subtotal = data['party'][i].gst_without;
                           var total = data['party'][i].total_amount;
                           var date = data['party'][i].date;
+                          var party_name = data['party'][i].party__party_name;
                           var d = new Date(date)
                           date = d.getDate()+'/'+ (d.getMonth() + 1)+'/'+d.getFullYear()
                           netProfit +=subtotal;
                           gstPay += total;
                           success+="<tr><td>"+ (i +1) +"</td><td>"+invoice_no+
-                          "<td>"+total.toLocaleString()+
+                          "</td><td>"+party_name+
+                          "</td><td>"+total.toLocaleString()+
                           "</td><td>"+subtotal.toLocaleString() +
                           "</td><td>"+
                           date +
@@ -275,9 +289,10 @@ $("#PartyendingDate").on("change",function(){
 				  var success = "";
 				  var increment = 0;
 		         $.each(data['party'], function(index, value){
-		          success+="<tr><td>"+ (++increment) +"</td><td>"+value[1]+
-		                    "</td><td>" + value[2] +
-                          "</td><td>"+value[0].toLocaleString()+
+		         console.log(value)
+		          success+="<tr><td>"+ (++increment) +"</td><td>"+value.party__party_name+
+		                    "</td><td>" + value.party__gst_no +
+                          "</td><td>"+value.count+
                           "</td></tr>";
                  });
                  $("#Partywise").append(success);
@@ -288,4 +303,6 @@ $("#PartyendingDate").on("change",function(){
             alert("Not Valid Date range.")
         }
     });
+
+
 

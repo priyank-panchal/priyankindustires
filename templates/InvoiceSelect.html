@@ -1,73 +1,107 @@
-
-{% extends 'index.html'%}
-{% load humanize %}
-    {% block content %}
-                <div class="page-content">
-                    <div class="container-fluid">
-
-                        <!-- start page title -->
-                        <div class="row">
-                            <div class="col-12">
-                                <div class="page-title-box ">
-                                      <div class="mb-2" style="float:left;margin-right:20px">
-                                        <label><b>Starting Date</b></label>
-                                        <input type="date"  class="form-control" name ="startingDate" id ="startingDate" />
-                                      </div>
-                                      <div class="mb-2" style="float:left;margin-right:20px">
-                                        <label><b>ending Date</b></label>
-                                        <input type="date"  class="form-control" name ="endingDate" id ="endingDate" />
-                                      </div>
-                                    <div class="mb-2" style="float:left;margin-right:20px">
-                                        <label><b>Net Profit </b></label>
-                                          <input type="text"  class="form-control" name ="endingDate" id ="netProfit" readonly/>
-                                    </div>
-                                     <div class="mb-2" style="float:left">
-                                        <label><b>Pay GST</b></label>
-                                          <input type="text"  class="form-control" name ="endingDate" id ="gst" readonly/>
-                                    </div>
-
-                                    </div>
-                            </div>
-                        </div>
-                        <!-- end page title -->
-
-                        <div class="row" >
-                            <div class="col-12">
-                                <div class="card">
-
-                                    <div class="card-body">
-                                        <div class="table-rep-plugin">
-                                            <div class="table-responsive mb-0" data-pattern="priority-columns">
-                                                <table id="invoice-data" class="table">
-                                                    <thead>
-                                                    <tr>
-                                                        <th>Sr No</th>
-                                                        <th>Inovice No</th>
-                                                        <th>Total Amount </th>
-                                                        <th>Net Profit</th>
-                                                        <th>Date</th>
-                                                    </tr>
-                                                    </thead>
-                                                    <tbody id="dataParty">
-                                                    {% for invoice in object_list %}
-                                                    <tr>
-                                                        <td> {{ forloop.counter }} </td>
-                                                        <td>{{ invoice.invoice_no }}</td>
-                                                        <td>{{ invoice.total_amount  | intcomma }} </td>
-                                                        <td>{{ invoice.gst_without  | intcomma}} </td>
-                                                        <td>{{ invoice.date | date:"d/m/Y"  | intcomma}} </td>
-                                                    </tr>
-                                                    {% endfor %}
-                                                    </tbody>
-                                                </table>
-                                            </div>
-
-                                        </div>
-
-                                    </div>
-                                </div>
-                            </div> <!-- end col -->
-                        </div> <!-- end row -->
-                    </div> <!-- container-fluid -->
-                </div>
-            {%endblock content %}
+{% extends 'index.html'%} {% load humanize %} {% block content %}
+<div class="page-content">
+  <div class="container-fluid">
+    <!-- start page title -->
+    <div class="row">
+      <div class="col-12">
+        <div class="page-title-box">
+          <div class="mb-2" style="float: left; margin-right: 20px">
+            <label><b>Starting Date</b></label>
+            <input
+              type="date"
+              class="form-control"
+              name="startingDate"
+              id="startingDate"
+            />
+          </div>
+          <div class="mb-2" style="float: left; margin-right: 20px">
+            <label><b>ending Date</b></label>
+            <input
+              type="date"
+              class="form-control"
+              name="endingDate"
+              id="endingDate"
+            />
+          </div>
+          <div class="mb-2" style="float: left; margin-right: 20px">
+            <label><b>Net Profit </b></label>
+            <input
+              type="text"
+              class="form-control"
+              name="endingDate"
+              id="netProfit"
+              readonly
+            />
+          </div>
+          <div class="mb-2" style="float: left">
+            <label><b>Pay GST</b></label>
+            <input
+              type="text"
+              class="form-control"
+              name="endingDate"
+              id="gst"
+              readonly
+            />
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="row">
+      <div class="col-12">
+        <div class="card">
+          <div class="card-body">
+            <div class="table-rep-plugin">
+              <div
+                class="table-responsive mb-0"
+                data-pattern="priority-columns"
+              >
+                <table id="invoice-data" class="table">
+                  <thead>
+                    <tr>
+                      <th>Sr No</th>
+                      <th>Inovice No</th>
+                      <th>Party Name</th>
+                      <th>Total Amount</th>
+                      <th>Net Profit</th>
+                      <th>Date</th>
+                      <th>Print</th>
+                      <th>Action</th>
+                    </tr>
+                  </thead>
+                  <tbody id="dataParty">
+                    {% for invoice in object_list %}
+                    <tr>
+                      <td>{{ forloop.counter }}</td>
+                      <td>{{ invoice.invoice_no }}</td>
+                      <td>{{invoice.party__party_name }}</td>
+                      <td>{{ invoice.total_amount | intcomma }}</td>
+                      <td>{{ invoice.gst_without | intcomma}}</td>
+                      <td>{{ invoice.date | date:"d/m/Y" | intcomma}}</td>
+                      <td>
+                        <a
+                          href="{% url 'invoice-print' invoice.id %}"
+                          class="btn btn-primary"
+                          ><i class="fa fa-print" aria-hidden="true"></i
+                        ></a>
+                      </td>
+                      <td>
+                        <a href="#" class="btn btn-primary"
+                          ><i class="far fa-edit far fa-edit fa-fw fa-xl"></i
+                        ></a>
+                      </td>
+                    </tr>
+                    {% endfor %}
+                  </tbody>
+                </table>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <!-- end col -->
+    </div>
+    <!-- end row -->
+  </div>
+  <!-- container-fluid -->
+</div>
+{%endblock content %}
