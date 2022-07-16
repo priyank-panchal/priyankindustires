@@ -1,55 +1,55 @@
 {% extends 'index.html'%}
 {% block content %}
+
 <div class="page-content">
     <div class="container-fluid">
-        <div class="card">
-            <form class="form-horizontal custom-form" role="form"  method="post" id="mainForm1">
-                {% csrf_token %} 
+        <div class="card"> 
+            <form class="form-horizontal custom-form" role="form" id="purchasemainForm" >
                 <div class="card-body">
-
                     <div class="container">
 
                         <div class="form-group">
                             <div class="col-sm-12">
+                               
                                 <div class="row">
+                                    <h2 style="text-align:center;mergin-bottom:10px;">Purchase Bill</h2>
+
                                     <div class="col-md-3">
                                         <label><b>Gst No.</b></label>
                                         <div class="input-group">
-                                            <select class="form-control select2" id="MeldiUpdate" name="party">
-                                                <option value="">select</option>
-                                                {% for party in partyInformation %}
-                                                <option value={{ party.id }} {% if party.id == data.party.id %}selected{% endif %}> {{ party.gst_no }}</option>
+                                            <select class="form-control select2" id="Meldi" name="gstno">
+                                                <option value="">Select</option>
+                                                {% for party in data.partyInformation %}
+                                                <option value={{ party.id }}> {{ party.gst_no }}</option>
                                                 {% endfor %}
                                             </select>
                                         </div>
                                     </div>
 
-                                    <input type="hidden" id="Url" data-url="{% url 'get-invoicenumber' %}" />
-                                    <input type="hidden" id="url-2" data-url="{% url 'gstNo' 0 %}" />
-                                    <input type="hidden" id="product-url" data-url="{% url 'productOne' 0 %}" />
-
-
                                     <div class="col-md-4">
                                         <label><b>Party Name</b></label>
                                         <div class="input-group">
                                             <input type="text" class="form-control" placeholder="Party Name"
-                                                   id="PartyUnique" value="{{data.party.party_name}}">
+                                                   id="PartyUnique" readonly>
                                         </div>
 
                                     </div>
+                                    <input type="hidden" id="Url" data-url="{% url 'get-invoicenumber' %}" />
+                                    <input type="hidden" id="url-2" data-url="{% url 'gstNo' 0 %}" />
+                                    <input type="hidden" id="product-url" data-url="{% url 'productOne' 0 %}" />
                                     <div class="col-md-2">
                                         <label><b>State.</b></label>
                                         <div class="input-group">
                                             <input type="text" class="form-control" placeholder="State"
-                                                    id="Party_state" value="{{data.party.state}}" >
+                                                   id="Party_state" readonly>
                                         </div>
 
                                     </div>
                                     <div class="col-md-2">
                                         <label><b>Date</b></label>
                                         <div class="input-group">
-                                            <input type="date" class="form-control" placeholder="date"
-                                                   id="Party_date" name ="date" value="{{data.date |date:"Y-m-d"}}" >
+                                            <input type="date" name="todayDate" class="form-control" 
+                                                   id="Party_date" >
                                         </div>
 
                                     </div>
@@ -59,6 +59,7 @@
                             </div>
 
                         </div>
+
                         <div class="form-group">
                             <label class="col-sm-2 control-label"></label>
                             <div class="col-sm-12">
@@ -67,24 +68,16 @@
                                         <label><b>Mobile No.</b></label>
                                         <div class="input-group">
                                             <input type="text" class="form-control" placeholder="Mobile no"
-                                                   id="Party_mobile" value="{{data.party.phone_no}}">
+                                                   id="Party_mobile" readonly>
                                         </div>
                                     </div>
 
-                                    <div class="col-md-2">
-                                        <label><b>Invoice No</b></label>
-                                        <div class="input-group">
-                                            <input type="text" class="form-control" placeholder="Inovice No"
-                                                   name="invoice_no" id ="invoiceNumber" value="{{data.invoice_no}}">
-                                        </div>
-
-                                    </div>
-
+                                  
                                     <div class="col-md-6">
                                         <label><b>Address</b></label>
                                         <div class="input-group">
                                             <textarea class="form-control" rows="2"
-                                                      placeholder="Address" id="party_address" >{{data.party.address}}</textarea>
+                                                      placeholder="Address" id="party_address" readonly></textarea>
                                         </div>
                                     </div>
                                 </div>
@@ -109,41 +102,42 @@
                                 </tr>
                                 </thead>
                                 <tbody id="TBody">
-                                {% for i in products%}
-                                <tr id="addr{{forloop.counter0}}">
-                                    <td>{{ forloop.counter }}</td>
+                                <tr id='addr0'>
+                                    <td>1</td>
                                     <td>
                                         <select class="form-control orderName" name="ProductName[]">
                                             <option value="">Select</option>
-                                            {% for product in product %}
-                                            <option value={{ product.id }} {% if product.id == i.product.id %}selected{% endif %}> {{ product.product_name }}</option>
+                                            {% for product in data.product %}
+                                            <option value={{ product.id }}> {{ product.product_name }}</option>
                                             {% endfor %}
                                         </select>
                                     </td>
                                     <td>
-                                        <input type="number" class="form-control hsn" value={{i.product.hsn_code}} />
+                                        <input type="number" class="form-control hsn" readonly/>
                                     </td>
                                     <td>
-                                        <input type="text" class="form-control per" value={{i.product.per}} />
+                                        <input type="text" class="form-control per" readonly/>
                                     </td>
                                     <td>
-                                        <input type="number" name='qty[]' class="form-control qty" value="{{i.qty}}"/>
+                                        <input type="number" name='qty[]' class="form-control qty" required/>    
                                     </td>
                                     <td>
-                                        <input type="number" name='rate[]' class="form-control rate"  value="{{i.rate}}"/>
+                                        <input type="number" name='rate[]' class="form-control rate" required/>
                                     </td>
                                     <td>
-                                        <input type="number" name='amount[]' class="form-control amount" value="{{i.amount}}" readonly/>
+                                        <input type="number" name='amount[]' class="form-control amount" readonly/>
                                     </td>
                                 </tr>
-                                {% endfor%}
-                              
+                                <tr id='addr1'></tr>
+                                </tbody>
                             </table>
-
                         </div>
                     </div>
 
-                 
+                    <button id="add_row" class="btn btn-primary" style="margin-bottom:25px"><i class="fas fa-plus"></i>
+                    </button>
+                    <button id='delete_row' class="btn btn-primary" style="margin-bottom:25px"><i
+                            class="fa fa-times"></i></button>
                     <div class="container">
                         <div class="form-group">
                             <div class="col-sm-12">
@@ -151,7 +145,7 @@
                                     <div class="col-md-2">
                                         <label><b>Sub Total</b></label>
                                         <div class="input-group">
-                                            <input type="number" class="form-control" id="sub_total" name="gst_without" value="{{ data.gst_without}}"
+                                            <input type="number" class="form-control" id="sub_total" name="subtotal"
                                                    readonly/>
                                         </div>
                                     </div>
@@ -159,50 +153,67 @@
                                     <div class="col-md-2">
                                         <label><b>CGST</b></label>
                                         <div class="input-group">
-                                            <input type="number" class="form-control" name="cgst" id="CGST" readonly value="{{ data.cgst}}">
+                                            <input type="number" class="form-control" name="cgst" id="CGST" readonly>
                                         </div>
 
                                     </div>
                                     <div class="col-md-2">
                                         <label><b>SGST</b></label>
                                         <div class="input-group">
-                                            <input type="number" class="form-control" name="sgst" id="SGST" value="{{ data.sgst}}" readonly>
+                                            <input type="number" class="form-control" name="sgst" id="SGST" readonly>
                                         </div>
 
                                     </div>
                                     <div class="col-md-2">
                                         <label><b>IGST</b></label>
                                         <div class="input-group">
-                                            <input type="number" class="form-control" id="IGST" name="igst" value="{{ data.igst}}" readonly>
+                                            <input type="number" class="form-control" id="IGST" name="igst" readonly>
                                         </div>
                                     </div>
                                     <div class="col-md-2">
                                         <label><b>Round off</b></label>
                                         <div class="input-group">
-                                            <input type="text" name="round_off" class="form-control" value="{{ data.round_off}}" id="RoundOff">
+                                            <input type="text" name="roundoff" class="form-control" id="RoundOff">
                                         </div>
                                         <!-- /.input-group -->
                                     </div>
-
                                     <div class="col-md-2">
                                         <label><b>Grand Total</b></label>
                                         <div class="input-group">
-                                            <input type="number" class="form-control" name="total_amount" value="{{ data.total_amount}}" id="GrandTotal"
+                                            <input type="number" class="form-control" name="grandtotal" id="GrandTotal"
                                                    readonly>
                                         </div>
                                     </div>
-
                                 </div>
                             </div>
-
                         </div>
-
-
                     </div>
-
-
                 </div>
-                <button type="submit" class="btn btn-primary" style="margin:25px;float:right;">Update Invoice</button>
+            <div class="container" style="margin:20px">
+                <div class="form-group">
+                    <div class="col-sm-12">
+                        <div class="row">
+                                  <div class="col-md-3">
+                                      <label><b>Cash</b></label>
+                                     <input type="number" name="cash" class="form-control" id="cash"  required>
+                                 </div>
+                                 <div class="col-md-3">
+                                       <label><b>Types</b></label>
+                                      <select class="form-control cashtype" name="cashtype" required>
+                                      {% for i in choicedata %}
+                                         <option value={{i.0}}>{{i.1}}</option>
+                                      {% endfor %}
+                                     </select>
+                                 </div>
+                    <!-- /.input-group -->
+                         </div>
+               <button id="AddToInvoice" class="btn btn-primary" style="margin:25px;float:right;" >Add Invoice</button>
+            </div>
+        </div>
+    </div>
+</div>
+                
+
             </form>
         </div>
     </div>

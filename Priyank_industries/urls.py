@@ -18,7 +18,8 @@ from django.urls import path, include
 from Admin.views import index
 
 urlpatterns = [
+    path('__debug__/', include('debug_toolbar.urls')),
     path('admin/', admin.site.urls),
-    path('',include('Admin.urls'))
+    path('', include('Admin.urls'))
 
 ]

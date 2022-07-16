@@ -1,4 +1,5 @@
 from dataclasses import field
+from pyexpat import model
 from django import forms
 from django.forms.widgets import TextInput
 from .models import *
@@ -34,6 +35,18 @@ class productAddForm(forms.ModelForm):
         return product
 
 
+class updateBill(forms.ModelForm):
+    class Meta:
+        model = BillDetails
+        fields = '__all__'
+
+
+class updatePurchase(forms.ModelForm):
+    class Meta:
+        model = PurchaseDetails
+        fields = '__all__'
+
+
 class updateParty(forms.ModelForm):
     class Meta:
         model = PartyDetails
@@ -41,5 +54,16 @@ class updateParty(forms.ModelForm):
 
     def __init__(self, *args, **kwargs):
         super(updateParty, self).__init__(*args, **kwargs)
+        for visible in self.visible_fields():
+            visible.field.widget.attrs['class'] = 'form-control'
+
+
+class productUpdates(forms.ModelForm):
+    class Meta:
+        model = Product
+        fields = '__all__'
+
+    def __init__(self, *args, **kwargs):
+        super(productUpdates, self).__init__(*args, **kwargs)
         for visible in self.visible_fields():
             visible.field.widget.attrs['class'] = 'form-control'

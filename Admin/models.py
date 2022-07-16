@@ -1,4 +1,6 @@
+from pyexpat import model
 from django.db import models
+from .ChoiceModel import PAYMENT_CHOICES
 
 
 class PartyDetails(models.Model):
@@ -14,6 +16,8 @@ class Product(models.Model):
     hsn_code = models.CharField(max_length=8)
     per = models.CharField(max_length=8)
 
+# sales entery are here
+
 
 class BillDetails(models.Model):
     invoice_no = models.CharField(max_length=28)
@@ -21,19 +25,60 @@ class BillDetails(models.Model):
     sgst = models.FloatField(default=0.0)
     igst = models.FloatField(default=0.0)
     date = models.DateField()
-    total_amount = models.FloatField()
+    total_amount = models.FloatField(default=0.0)
     party = models.ForeignKey(
         PartyDetails, on_delete=models.CASCADE)
     gst_without = models.FloatField()
     round_off = models.FloatField()
     time = models.TimeField(auto_now=True)
 
+# purchse entry are put here
+
+
+class PurchaseDetails(models.Model):
+    cgst = models.FloatField(default=0.0, null=True)
+    sgst = models.FloatField(default=0.0, null=True)
+    igst = models.FloatField(default=0.0, null=True)
+    date = models.DateField(null=True)
+    total_amount = models.FloatField(default=0.0, null=True)
+    party = models.ForeignKey(
+        PartyDetails, on_delete=models.CASCADE)
+    gst_without = models.FloatField(null=True)
+    round_off = models.FloatField(null=True)
+    time = models.TimeField(auto_now=True)
+
+# payment related entry are put here
+
+
+class Payment_by(models.Model):
+    payament_mode = models.CharField(
+        max_length=7, choices=PAYMENT_CHOICES, default="Cash")
+    pay = models.FloatField(default=0.0, null=True)
+    billDetails = models.ForeignKey(
+        BillDetails, on_delete=models.CASCADE, null=True)
+    purchaseDetail = models.ForeignKey(
+        PurchaseDetails, on_delete=models.CASCADE, null=True)
+    date = models.DateField(auto_now=True)
+
+    def __str__(self) -> str:
+        return self.billDetails.invoice_no
+
+# sales and purchse all the product entrie are put here
+
 
 class ProductSelling(models.Model):
-    amount = models.FloatField(null=True,blank=True)
-    qty = models.IntegerField()
-    rate = models.IntegerField(default=0)
+    CHOICE = (
+        ("1", "Selling"),
+        ("2", "Purchasing")
+    )
+    amount = models.FloatField(null=True, blank=True)
+    qty = models.FloatField(default=0.0, null=True)
+    rate = models.FloatField(default=0.0, null=True)
     product = models.ForeignKey(
         Product, on_delete=models.CASCADE)
     billDetails = models.ForeignKey(
-        BillDetails, on_delete=models.CASCADE)
+        BillDetails, on_delete=models.CASCADE, null=True)
+    purchaseDetails = models.ForeignKey(
+        PurchaseDetails, on_delete=models.CASCADE, null=True)
+    choice = models.CharField(
+        max_length=2, choices=CHOICE, default="2", null=True)

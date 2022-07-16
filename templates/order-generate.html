@@ -1,16 +1,19 @@
 {% extends 'index.html'%}
 {% block content %}
+
 <div class="page-content">
     <div class="container-fluid">
-        <div class="card">
-            <form class="form-horizontal custom-form" role="form" id="mainForm">
+        <div class="card"> 
+            <form class="form-horizontal custom-form" role="form" id="mainForm" >
                 <div class="card-body">
-
                     <div class="container">
 
                         <div class="form-group">
+                            <h2 style="text-align:center;color:blue; border-bottom: 4px solid blue;">Bill Generate</h2>
                             <div class="col-sm-12">
+                               
                                 <div class="row">
+
                                     <div class="col-md-3">
                                         <label><b>Gst No.</b></label>
                                         <div class="input-group">
@@ -27,23 +30,26 @@
                                         <label><b>Party Name</b></label>
                                         <div class="input-group">
                                             <input type="text" class="form-control" placeholder="Party Name"
-                                                   id="PartyUnique">
+                                                   id="PartyUnique" readonly>
                                         </div>
 
                                     </div>
+                                    <input type="hidden" id="Url" data-url="{% url 'get-invoicenumber' %}" />
+                                    <input type="hidden" id="url-2" data-url="{% url 'gstNo' 0 %}" />
+                                    <input type="hidden" id="product-url" data-url="{% url 'productOne' 0 %}" />
                                     <div class="col-md-2">
                                         <label><b>State.</b></label>
                                         <div class="input-group">
                                             <input type="text" class="form-control" placeholder="State"
-                                                   id="Party_state">
+                                                   id="Party_state" readonly>
                                         </div>
 
                                     </div>
                                     <div class="col-md-2">
                                         <label><b>Date</b></label>
                                         <div class="input-group">
-                                            <input type="text" name="todayDate" class="form-control" placeholder="date"
-                                                   id="Party_date">
+                                            <input type="date" name="todayDate" class="form-control" 
+                                                   id="Party_date" >
                                         </div>
 
                                     </div>
@@ -62,7 +68,7 @@
                                         <label><b>Mobile No.</b></label>
                                         <div class="input-group">
                                             <input type="text" class="form-control" placeholder="Mobile no"
-                                                   id="Party_mobile">
+                                                   id="Party_mobile" readonly>
                                         </div>
                                     </div>
 
@@ -79,7 +85,7 @@
                                         <label><b>Address</b></label>
                                         <div class="input-group">
                                             <textarea class="form-control" rows="2"
-                                                      placeholder="Address" id="party_address"></textarea>
+                                                      placeholder="Address" id="party_address" readonly></textarea>
                                         </div>
                                     </div>
                                 </div>
@@ -115,16 +121,16 @@
                                         </select>
                                     </td>
                                     <td>
-                                        <input type="number" class="form-control hsn"/>
+                                        <input type="number" class="form-control hsn" readonly/>
                                     </td>
                                     <td>
-                                        <input type="text" class="form-control per"/>
+                                        <input type="text" class="form-control per" readonly/>
                                     </td>
                                     <td>
-                                        <input type="number" name='qty[]' class="form-control qty"/>
+                                        <input type="number" name='qty[]' class="form-control qty" required/>    
                                     </td>
                                     <td>
-                                        <input type="number" name='rate[]' class="form-control rate"/>
+                                        <input type="number" name='rate[]' class="form-control rate" required/>
                                     </td>
                                     <td>
                                         <input type="number" name='amount[]' class="form-control amount" readonly/>
@@ -179,7 +185,6 @@
                                         </div>
                                         <!-- /.input-group -->
                                     </div>
-
                                     <div class="col-md-2">
                                         <label><b>Grand Total</b></label>
                                         <div class="input-group">
@@ -187,18 +192,36 @@
                                                    readonly>
                                         </div>
                                     </div>
-
                                 </div>
                             </div>
-
                         </div>
-
-
                     </div>
-
-
                 </div>
-                <button id="AddToInvoice" class="btn btn-primary" style="margin:25px;float:right;">Add Invoice</button>
+            <div class="container" style="margin:20px">
+                <div class="form-group">
+                    <div class="col-sm-12">
+                        <div class="row">
+                                  <div class="col-md-3">
+                                      <label><b>Cash</b></label>
+                                     <input type="number" name="cash" class="form-control" id="cash"  required>
+                                 </div>
+                                 <div class="col-md-3">
+                                       <label><b>Types</b></label>
+                                      <select class="form-control cashtype" name="cashtype" required>
+                                      {% for i in choicedata %}
+                                         <option value={{i.0}}>{{i.1}}</option>
+                                      {% endfor %}
+                                     </select>
+                                 </div>
+                    <!-- /.input-group -->
+                         </div>
+               <button id="AddToInvoice" class="btn btn-primary" style="margin:25px;float:right;" >Add Invoice</button>
+            </div>
+        </div>
+    </div>
+</div>
+                
+
             </form>
         </div>
     </div>

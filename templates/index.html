@@ -20,7 +20,7 @@
 	<link href=" {% static 'assets/css/select2.min.css'  %}" id="app-style" rel="stylesheet" type="text/css" />
 	<script src="https://code.iconify.design/1/1.0.7/iconify.min.js"></script>
 	<script src="https://cdn.jsdelivr.net/npm/chart.js@3.8.0/dist/chart.min.js"></script>
-
+	
 
 	
 
@@ -161,7 +161,7 @@
 							</div>
 							<div class="p-2 border-top">
 								<div class="d-grid">
-									<a class="btn btn-sm btn-link font-size-14 text-center" href=" {% static 'javascript:void(0)"> <i class="uil-arrow-circle-right me-1"></i> View More.. </a>
+									<a class="btn btn-sm btn-link font-size-14 text-center" href=" {% static 'javascript:void(0)' %}"> <i class="uil-arrow-circle-right me-1"></i> View More.. </a>
 								</div>
 							</div>
 						</div>
@@ -202,13 +202,19 @@
 							<a href="{% url 'product-details' %}" class="waves-effect"><i class="fa fa-plus" aria-hidden="true"></i> <span>Product-Details</span> </a>
 						</li>
 						<li>
-							<a href="{% url 'invoiceBill' %}" class="waves-effect"><i class="fas fa-file-invoice"></i><span>Generate Bill</span> </a>
+							<a href="{% url 'purchasemaster' %}" class="waves-effect"><i class="fas fa-eye"></i><span>Purchase Details</span> </a>
 						</li>
 						<li>
-							<a href="{% url 'invoice-show' %}" class="waves-effect"><i class="fas fa-eye"></i><span>Bill Details</span> </a>
+							<a href="{% url 'invoice-show' %}" class="waves-effect"><i class="fas fa-file-invoice"></i><span>Sales Details</span> </a>
 						</li>
 						<li>
 							<a href="{% url 'partyWiseProfit' %}" class="waves-effect"><i class="fas fa-eye"></i><span>Party Profit</span> </a>
+						</li>
+						<li>
+							<a href="{% url 'partyWiseProfit' %}" class="waves-effect">	<i class="fa fa-file"></i><span>Credit</span> </a>
+						</li>
+						<li>
+							<a href="{% url 'partyWiseProfit' %}" class="waves-effect"><i class="fa fa-file"></i><span>Debit</span> </a>
 						</li>
 					</ul>
 				</div>
