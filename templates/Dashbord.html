@@ -28,9 +28,21 @@
 									</div>
 									<div>
 										<h4 class="mb-1 mt-1"><i class="fas fa-rupee-sign"></i><span data-plugin="counterup">{{total_income | intcomma}}</span></h4>
-										<p class="text-muted mb-0">Net Profit By Month</p>
+										<p class="text-muted mb-0"><b>Net Profit By Month</b></p>
 									</div>
-									<p class="text-muted mt-3 mb-0"><span class="text-success me-1"><i class="mdi mdi-arrow-up-bold me-1"></i>2.65%</span> since last week </p>
+								</div>
+							</div>
+						</div>
+						<div class="col-md-6 col-xl-3">
+							<div class="card">
+								<div class="card-body">
+									<div class="float-end mt-2">
+										<div id="growth-chart"></div>
+									</div>
+									<div>
+										<h4 class="mb-1 mt-1"><i class="fas fa-rupee-sign"></i><span data-plugin="counterup">{{ gst_pay| intcomma }}</span></h4>
+										<p class="text-muted mb-0"><b>GST By Month</b></p>
+									</div>
 								</div>
 							</div>
 						</div>
@@ -44,9 +56,8 @@
 									<div>
 
 										<h4 class="mb-1 mt-1"><span data-plugin="counterup">{{ order }}</span></h4>
-										<p class="text-muted mb-0">Orders</p>
+										<p class="text-muted mb-0"><b>Orders By Month </b></p>
 									</div>
-									<p class="text-muted mt-3 mb-0"><span class="text-danger me-1"><i class="mdi mdi-arrow-down-bold me-1"></i>0.82%</span> since last week </p>
 								</div>
 							</div>
 						</div>
@@ -61,73 +72,105 @@
 										<h4 class="mb-1 mt-1"><span data-plugin="counterup">{{ party }}</span></h4>
 										<p class="text-muted mb-0">Customers</p>
 									</div>
-									<p class="text-muted mt-3 mb-0"><span class="text-danger me-1"><i class="mdi mdi-arrow-down-bold me-1"></i>6.24%</span> since last week </p>
+								
 								</div>
 							</div>
 						</div>
 						<!-- end col-->
-						<div class="col-md-6 col-xl-3">
-							<div class="card">
-								<div class="card-body">
-									<div class="float-end mt-2">
-										<div id="growth-chart"></div>
-									</div>
-									<div>
-										<h4 class="mb-1 mt-1">+ <span data-plugin="counterup"> </span>%</h4>
-										<p class="text-muted mb-0">Growth</p>
-									</div>
-									<p class="text-muted mt-3 mb-0"><span class="text-success me-1"><i class="mdi mdi-arrow-up-bold me-1"></i>10.51%</span> since last week </p>
-								</div>
-							</div>
-						</div>
+					
 					</div>
-					<div class="row">
-						<div class="col-xl-8">
-							<div class="card">
-								<div class="card-body">
-									<div class="float-end">
-										<div class="dropdown">
-											<a class="dropdown-toggle text-reset" href="#" id="dropdownMenuButton5" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false"> <span class="fw-semibold">Sort By:</span> <span class="text-muted">Yearly<i class="mdi mdi-chevron-down ms-1"></i></span> </a>
-											<div class="dropdown-menu dropdown-menu-end" aria-labelledby="dropdownMenuButton5"> <a class="dropdown-item" href="#">Monthly</a> <a class="dropdown-item" href="#">Yearly</a> <a class="dropdown-item" href="#">Weekly</a> </div>
-										</div>
-									</div>
-									<h4 class="card-title mb-4">Sales Analytics</h4>
-									<div class="mt-1">
-										<ul class="list-inline main-chart mb-0">
-											<li class="list-inline-item chart-border-left me-0 border-0">
-												<h3 class="text-primary">$<span data-plugin="counterup">2,371</span><span class="text-muted d-inline-block font-size-15 ms-3">Income</span></h3> </li>
-											<li class="list-inline-item chart-border-left me-0">
-												<h3><span data-plugin="counterup">258</span><span class="text-muted d-inline-block font-size-15 ms-3">Sales</span>
-                                                    </h3> </li>
-											<li class="list-inline-item chart-border-left me-0">
-												<h3><span data-plugin="counterup">3.6</span>%<span class="text-muted d-inline-block font-size-15 ms-3">Conversation Ratio</span></h3> </li>
-										</ul>
-									</div>
-									<div class="mt-3">
-										<div id="sales-analytics-chart" class="apex-charts" dir="ltr"></div>
-									</div>
-								</div>
-								<!-- end card-body-->
-							</div>
-							<!-- end card-->
-						</div>
-						<!-- end col-->
-						<div class="col-xl-4">
-							<div class="card bg-primary">
-								<div class="card-body">
-									<div class="row align-items-center">
-										<div class="col-sm-8">
-											<p class="text-white font-size-18">Enhance your <b>Campaign</b> for better outreach <i class="mdi mdi-arrow-right"></i></p>
-											<div class="mt-4"> <a href="javascript: void(0);" class="btn btn-success waves-effect waves-light">Upgrade Account!</a> </div>
-										</div>
-										<div class="col-sm-4">
-											<div class="mt-4 mt-sm-0"> <img src="assets/images/setup-analytics-amico.svg" class="img-fluid" alt=""> </div>
-										</div>
-									</div>
-								</div>
-								<!-- end card-body-->
-							</div>
-							<!-- end card-->
-
-            </div>
+					<div class="col-md-6 col-xl-8">
+						<div class="card">
+							<canvas id="myChart" width="100" height="60"></canvas>
+								<script>
+									var ctx = document.getElementById("myChart");
+									var myLineChart = new Chart(ctx, {
+									  type: 'line',
+									  data: {
+										labels: [{% for items in months%} '{{items}}', {%endfor%}],
+										datasets: [{
+										  label: "Earnings",
+										  lineTension: 0.3,
+										  backgroundColor: "rgba(78, 115, 223, 0.05)",
+										  borderColor: "rgba(78, 115, 223, 1)",
+										  pointRadius: 3,
+										  pointBackgroundColor: "rgba(78, 115, 223, 1)",
+										  pointBorderColor: "rgba(78, 115, 223, 1)",
+										  pointHoverRadius: 3,
+										  pointHoverBackgroundColor: "rgba(78, 115, 223, 1)",
+										  pointHoverBorderColor: "rgba(78, 115, 223, 1)",
+										  pointHitRadius: 10,
+										  pointBorderWidth: 2,
+										  data: [{% for items in totalprofit%} '{{items}}', {%endfor%}],
+										}],
+									  },
+									  options: {
+										maintainAspectRatio: false,
+										layout: {
+										  padding: {
+											left: 10,
+											right: 25,
+											top: 25,
+											bottom: 0
+										  }
+										},
+										scales: {
+										  xAxes: [{
+											time: {
+											  unit: 'date'
+											},
+											gridLines: {
+											  display: false,
+											  drawBorder: false
+											},
+											ticks: {
+											  maxTicksLimit: 7
+											}
+										  }],
+										  yAxes: [{
+											ticks: {
+											  maxTicksLimit: 5,
+											  padding: 10,
+											  // Include a dollar sign in the ticks
+											  callback: function(value, index, values) {
+												return '$' + number_format(value);
+											  }
+											},
+											gridLines: {
+											  color: "rgb(234, 236, 244)",
+											  zeroLineColor: "rgb(234, 236, 244)",
+											  drawBorder: false,
+											  borderDash: [2],
+											  zeroLineBorderDash: [2]
+											}
+										  }],
+										},
+										legend: {
+										  display: false
+										},
+										tooltips: {
+										  backgroundColor: "rgb(255,255,255)",
+										  bodyFontColor: "#858796",
+										  titleMarginBottom: 10,
+										  titleFontColor: '#6e707e',
+										  titleFontSize: 14,
+										  borderColor: '#dddfeb',
+										  borderWidth: 1,
+										  xPadding: 15,
+										  yPadding: 15,
+										  displayColors: false,
+										  intersect: false,
+										  mode: 'index',
+										  caretPadding: 10,
+										  callbacks: {
+											label: function(tooltipItem, chart) {
+											  var datasetLabel = chart.datasets[tooltipItem.datasetIndex].label || '';
+											  return datasetLabel + ': $' + number_format(tooltipItem.yLabel);
+											}
+										  }
+										}
+									  }
+									});
+                        </script>
+					</div>
 {%endblock content %}

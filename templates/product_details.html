@@ -30,7 +30,8 @@
                                                         <th>Sr No</th>
                                                         <th>Product Name</th>
                                                         <th>HSN Code</th>
-                                                        <th>Per</th>
+                                                        <th>Pe</th>
+                                                        <th>Actions</th>
                                                     </tr>
                                                     </thead>
 
@@ -40,6 +41,7 @@
                                                         <td>{{ productDetails.product_name }}</td>
                                                         <td>{{ productDetails.hsn_code }}</td>
                                                         <td>{{ productDetails.per }} </td>
+                                                        <td><a href="{% url 'product_update' productDetails.id %}"  class="btn btn-primary"><i class="fas fa-edit"></i></a></td>
                                                     </tr>
                                                     {% endfor %}
                                                     </tbody>
