@@ -1,3 +1,7 @@
+from __future__ import annotations
+from audioop import reverse
+from enum import auto
+from django.db.models import Q
 import datetime
 from re import template
 from secrets import choice
@@ -401,3 +405,50 @@ class editPurchase(UpdateView):
         return super().form_valid(form)
 
 
+class creditShow(ListView):
+    template_name = "credit.html"
+    context_object_name = "data"
+
+    def get_queryset(self):
+        return PurchaseDetails.objects.prefetch_related('purchase').annotate(totalpay=F('total_amount') - Sum('purchase__pay')).exclude(totalpay=0)
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        values = self.get_queryset()
+        remainCredit = 0
+        context['remainCredit'] = remainCredit
+        return context
+
+
+class CreditInsert(SuccessMessageMixin, CreateView):
+    form_class = CreditForm
+    template_name = "credit-insert.html"
+
+    def get_success_url(self):
+        return self.request.path
+
+    def form_valid(self, form):
+        form.instance.purchaseDetail = PurchaseDetails.objects.get(
+            id=self.kwargs['pk'])
+        return super(CreditInsert, self).form_valid(form)
+
+    def form_invalid(self, form):
+        return super().form_invalid(form)
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['ShowTransaction'] = Payment_by.objects.filter(
+            purchaseDetail=self.kwargs.get('pk'))
+        context['alreadyPay'] = Payment_by.objects.filter(
+            purchaseDetail=self.kwargs.get('pk')).aggregate(totalsum=Sum('pay'))
+        context['totalbill'] = PurchaseDetails.objects.get(
+            id=self.kwargs.get('pk'))
+        return context
+
+
+class deletePayment_by(DeleteView):
+    model = Payment_by
+    success_url = "/credit/"
+
+    def get(self, request, *args, **kwargs):
+        return self.delete(request, *args, **kwargs)

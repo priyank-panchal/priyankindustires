@@ -53,15 +53,16 @@ class PurchaseDetails(models.Model):
 class Payment_by(models.Model):
     payament_mode = models.CharField(
         max_length=7, choices=PAYMENT_CHOICES, default="Cash")
-    pay = models.FloatField(default=0.0, null=True)
+    pay = models.FloatField(null=True)
     billDetails = models.ForeignKey(
-        BillDetails, on_delete=models.CASCADE, null=True)
+        BillDetails, on_delete=models.CASCADE, null=True, related_name="bill")
     purchaseDetail = models.ForeignKey(
-        PurchaseDetails, on_delete=models.CASCADE, null=True)
-    date = models.DateField(auto_now=True)
+        PurchaseDetails, on_delete=models.CASCADE, null=True, related_name="purchase")
+    date = models.DateTimeField(auto_now=True)
 
-    def __str__(self) -> str:
-        return self.billDetails.invoice_no
+    def __str__(self):
+        return self.payament_mode
+
 
 # sales and purchse all the product entrie are put here
 

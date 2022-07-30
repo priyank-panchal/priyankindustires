@@ -79,6 +79,7 @@ INTERNAL_IPS = [
     # ...
 ]
 
+
 WSGI_APPLICATION = 'Priyank_industries.wsgi.application'
 # Database
 # https://docs.djangoproject.com/en/4.0/ref/settings/#databases

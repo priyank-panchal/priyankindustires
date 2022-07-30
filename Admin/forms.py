@@ -67,3 +67,14 @@ class productUpdates(forms.ModelForm):
         super(productUpdates, self).__init__(*args, **kwargs)
         for visible in self.visible_fields():
             visible.field.widget.attrs['class'] = 'form-control'
+
+
+class CreditForm(forms.ModelForm):
+    class Meta:
+        model = Payment_by
+        fields = ['pay', 'payament_mode']
+
+    def __init__(self, *args, **kwargs):
+        super(CreditForm, self).__init__(*args, **kwargs)
+        for visible in self.visible_fields():
+            visible.field.widget.attrs['class'] = 'form-control'

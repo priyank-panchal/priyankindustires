@@ -1,3 +1,4 @@
+from unicodedata import name
 from django.urls import path, include
 from Admin.views import *
 
@@ -35,7 +36,14 @@ urlpatterns = [
     path('purchaseInsert/', purchaseInsert.as_view(), name="purchase_insert"),
     path('deletePurchase/<str:pk>',
          deletePurchase.as_view(), name="deletePurchase"),
-    path('editPurchase/<str:pk>', editPurchase.as_view(), name="editPurchase")
+    path('editPurchase/<str:pk>', editPurchase.as_view(), name="editPurchase"),
+
+
+    # credit urls
+    path('credit/', creditShow.as_view(), name="credit_show"),
+    path('creditInsert/<str:pk>', CreditInsert.as_view(), name="credit_insert"),
+    path('deletePayment_by/<str:pk>',deletePayment_by.as_view(),name="delete_payment_by")
+
 
 
 ]
