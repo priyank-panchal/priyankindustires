@@ -27,7 +27,7 @@ SECRET_KEY = 'django-insecure-8&+xrxjvsqo_$fc^9+mn3o#vqyy)8%dc=gv@$hao(ke&*o9o+*
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = ["priyank-industries.herokuapp.com", '127.0.0.1']
+ALLOWED_HOSTS = ["*"]
 
 
 # Application definition
@@ -87,7 +87,7 @@ WSGI_APPLICATION = 'Priyank_industries.wsgi.application'
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.postgresql',
-        'NAME': 'postgres',
+        'NAME': 'bms',
         'USER': 'postgres',
         'PASSWORD': 'root',
         'HOST': 'localhost',

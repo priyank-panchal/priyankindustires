@@ -73,7 +73,7 @@ class ProductSelling(models.Model):
         ("2", "Purchasing")
     )
     amount = models.FloatField(null=True, blank=True)
-    qty = models.FloatField(default=0.0, null=True)
+    qty = models.IntegerField(default=0, null=True)
     rate = models.FloatField(default=0.0, null=True)
     product = models.ForeignKey(
         Product, on_delete=models.CASCADE)
