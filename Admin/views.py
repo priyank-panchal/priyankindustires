@@ -35,7 +35,7 @@ def index(request):
     orders = BillDetails.objects.filter(date__year=now.year, date__month=now.month).aggregate(orders=Count('id'))[
         'orders']
     monthProfits = BillDetails.objects.annotate(month=TruncMonth('date')).values('month').annotate(
-        totalprofit=Sum('gst_without')).reverse()[:12]
+        totalprofit=Sum('gst_without')).reverse().order_by('-month')[:12]
     if monthProfits:
         dataframe = pd.DataFrame(monthProfits.values('totalprofit', 'month'))
         totalprofit = dataframe.totalprofit.tolist()
