@@ -15,21 +15,21 @@
                                 <div class="row">
 
                                     <div class="col-md-3">
-                                        <label><b>Gst No.</b></label>
+                                        <label><b>Party Name.</b></label>
                                         <div class="input-group">
                                             <select class="form-control select2" id="Meldi" name="gstno">
                                                 <option value="">Select</option>
                                                 {% for party in data.partyInformation %}
-                                                <option value={{ party.id }}> {{ party.gst_no }}</option>
+                                                <option value={{ party.id }}> {{ party.party_name }}</option>
                                                 {% endfor %}
                                             </select>
                                         </div>
                                     </div>
 
                                     <div class="col-md-4">
-                                        <label><b>Party Name</b></label>
+                                        <label><b>GST No</b></label>
                                         <div class="input-group">
-                                            <input type="text" class="form-control" placeholder="Party Name"
+                                            <input type="text" class="form-control" placeholder="GST Number"
                                                    id="PartyUnique" readonly>
                                         </div>
 

@@ -357,7 +357,9 @@ class purchaseInsert(View):
             rate = [float(i) for i in inputData.getlist("rate[]", "0")]
             amount = [float(i) for i in inputData.getlist("amount[]", '0')]
             insertMultipal = [ProductSelling(
-                amount=amount[i], qty=qty[i], rate=rate[i], product=Product.objects.get(id=Productids[i]), purchaseDetails=billDetails, choice=1) for i in range(0, len(Productids))]
+                amount=amount[i], qty=qty[i], rate=rate[i],
+                product=Product.objects.get(id=Productids[i]), purchaseDetails=billDetails, choice=1)
+                for i in range(0, len(Productids))]
             ProductSelling.objects.bulk_create(objs=insertMultipal)
         except Exception as e:
             return JsonResponse({"resp": print(e)})

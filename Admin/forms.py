@@ -34,6 +34,12 @@ class productAddForm(forms.ModelForm):
             raise forms.ValidationError("Product Should be unique")
         return product
 
+    def clean_per(self):
+        per = self.cleaned_data.get('per')
+        if per == "0":
+            raise forms.ValidationError("Select the value")
+        return per
+
 
 class updateBill(forms.ModelForm):
     class Meta:

@@ -1245,7 +1245,7 @@
             <td colspan=5 height=35 class=xl8722412 style='border-right:.5pt solid black;
   height:26.25pt'>&nbsp;M/S:<font class="font1622412"> {{ details.party.party_name }} </font></td>
             <td colspan=4 class=xl10922412 style='border-right:.5pt solid black;
-  border-left:none'>&nbsp;Date :&nbsp;{% now "d/m/Y" %}
+  border-left:none'>&nbsp;Date :&nbsp;{{ details.date |date:'d/m/Y'}}
             </td>
         </tr>
         <tr height=34 style='mso-height-source:userset;height:25.5pt'>

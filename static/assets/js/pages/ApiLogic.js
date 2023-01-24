@@ -152,7 +152,7 @@ $('#Meldi').on('change', function () {
         success: function (data) {
             var d = new Date();
             var strDate = d.getDate() + "/" + (d.getMonth() + 1) + "/" + d.getFullYear();
-            $("#PartyUnique").val(data['party'][0]["party_name"]);
+            $("#PartyUnique").val(data['party'][0]["gst_no"]);
             $("#Party_state").val(data['party'][0]["state"]);
             //$("#Party_date").val(strDate);
             var now = new Date();
