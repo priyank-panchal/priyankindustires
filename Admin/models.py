@@ -4,7 +4,7 @@ from .ChoiceModel import PAYMENT_CHOICES
 
 
 class PartyDetails(models.Model):
-    gst_no = models.CharField(max_length=17)
+    gst_no = models.CharField(max_length=17 , null=True ,blank=True)
     state = models.CharField(max_length=30)
     party_name = models.CharField(max_length=30)
     address = models.TextField()

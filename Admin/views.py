@@ -34,10 +34,11 @@ def index(request):
         gst=Sum(F('cgst') + F('sgst') + F('igst')))['gst']
     orders = BillDetails.objects.filter(date__year=now.year, date__month=now.month).aggregate(orders=Count('id'))[
         'orders']
-    monthProfits = BillDetails.objects.annotate(month=TruncMonth('date')).values('month').annotate(
-        totalprofit=Sum('gst_without')).reverse().order_by('-month')[:12]
-    if monthProfits:
-        dataframe = pd.DataFrame(monthProfits.values('totalprofit', 'month'))
+    monthly_profits = BillDetails.objects.annotate(month=TruncMonth('date')).values('month').annotate(
+        totalprofit=Sum('gst_without')).order_by('-month')[:12]
+    if monthly_profits:
+        dataframe = pd.DataFrame(monthly_profits.values('totalprofit', 'month'))
+        dataframe = dataframe[::-1]
         totalprofit = dataframe.totalprofit.tolist()
         months = dataframe.month.tolist()
     else:
@@ -48,7 +49,7 @@ def index(request):
         'order': orders,
         'gst_pay': gst_pay,
         'total_income': total_income,
-        'monthProfits': monthProfits,
+        'monthProfits': monthly_profits,
         'totalprofit': totalprofit,
         'months': months
     }
