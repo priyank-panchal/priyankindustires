@@ -13,8 +13,6 @@ class partyAddForm(forms.ModelForm):
 
     def clean_gst_no(self):
         gst_no = self.cleaned_data.get('gst_no')
-        if PartyDetails.objects.filter(gst_no=gst_no).exists():
-            raise forms.ValidationError("GST Number Should be unique")
         return gst_no
 
 

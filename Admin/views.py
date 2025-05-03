@@ -63,12 +63,11 @@ def partyDetails(request):
 class partyAdd(SuccessMessageMixin, CreateView):
     form_class = partyAddForm
     success_message = "Submitted data created successfully"
-    error_message = 'GST number should be unique'
     template_name = "Party_Add.html"
     success_url = "/partyAdd"
 
     def form_invalid(self, form):
-        messages.error(self.request, self.error_message)
+        messages.error(self.request, form.errors)
         return super().form_invalid(form)
 
 

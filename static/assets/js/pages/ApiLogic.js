@@ -5,36 +5,39 @@ $("#FetchData").on("focusout", function () {
     gstNo = gstNo.toUpperCase();
     $(this).val(gstNo)
     if (gstNo.length >= 15) {
-        var api = 'https://gst-return-status.p.rapidapi.com/gstininfo/' + gstNo;
+        var api = "https://powerful-gstin-tool.p.rapidapi.com/v1/gstin/" + gstNo + "/details";
         $.ajax({
             type: 'GET',
             url: api,
             headers: {
                 "Content-Type": "application/json",
-                'X-RapidAPI-Host': "gst-return-status.p.rapidapi.com",
                 "X-RapidAPI-Key": "b11e8602d0mshc7cc21e6c249368p164ebejsn727e73e31698"
             },
             success: function (data) {
-                if (data.success == true) {
-                    console.log(data);
-                    var name = data['data']['details']['tradename'];
-                    var pincode = data['data']['details']['pincode'];
+                if (data && data.data) {
+                    var companyName = data.data.legal_name || '';
+                    var name = data.data.trade_name || companyName;
                     $("#PartyApi").val(name.toUpperCase());
-                    if (data['data']['details']['principalplace'] != null) {
-                        var address = data['data']['details']['principalplace'];
-                        address = address.replace(",,", ",");
-                        var arr = address.split(",");
-                        var state = arr[arr.length - 1];
-                        $("#StateApi").val(state);
-                        address = address.toLowerCase().replace(/\b[a-z]/g, function (letter) {
-                            return letter.toUpperCase();
-                        });
-                        $("#AddressApi").val(address + " " + pincode);
-                    }
-                }
-                else {
-                    console.log(data)
-                    alert(data.errormessage);
+
+                    const addr = data.data.place_of_business_principal.address;
+
+                    $("#StateApi").val(addr.state || '');
+
+                    const fullAddress = [
+                        addr.door_num,
+                        addr.building_name,
+                        addr.floor_num,
+                        addr.street,
+                        addr.location,
+                        addr.city,
+                        addr.district,
+                        addr.state,
+                        addr.pin_code
+                    ].filter(Boolean).join(', ');
+
+                    $("#AddressApi").val(fullAddress);
+                } else {
+                    console.log(data);
                 }
             }
         });
